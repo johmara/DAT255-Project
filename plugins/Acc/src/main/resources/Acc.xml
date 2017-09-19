@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<app>
+    <vehicleName>MOPED</vehicleName>
+    <brand>SICS</brand>
+    <plugins>
+        <plugin>
+            <name>Acc.suite</name>
+            <ecu>2</ecu>
+            <ports>
+                <port>
+                    <name>pport</name>
+                </port>
+                <port>
+                    <name>rportDistance</name>
+                </port>
+                <port>
+                    <name>rportFWheel</name>
+                </port>
+                <port>
+                    <name>rportRWheel</name>
+                </port>
+            </ports>
+        </plugin>
+    </plugins>
+    <links>
+        <link>
+            <from>pport</from>
+            <to>3</to>
+        </link>
+        <link>
+            <from>13</from>
+            <to>rportDistance</to>
+        </link>
+        <link>
+            <from>5</from>
+            <to>rportFWheel</to>
+        </link>
+        <link>
+            <from>6</from>
+            <to>rportRWheel</to>
+        </link>
+    </links>
+</app>
+
