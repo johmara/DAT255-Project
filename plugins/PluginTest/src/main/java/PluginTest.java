@@ -1,5 +1,3 @@
-package main.java;
-
 import com.sun.squawk.VM;
 import sics.plugin.PlugInComponent;
 import sics.port.PluginPPort;
