@@ -1,0 +1,6 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="PluginTest">
+    <output-path>$PROJECT_DIR$/out/artifacts/PluginTest</output-path>
+    <root id="archive" name="PluginTest.jar" />
+  </artifact>
+</component>
