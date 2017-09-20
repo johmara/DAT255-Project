@@ -10,6 +10,7 @@ public class PluginTest2 extends PlugInComponent {
     public PluginPPort speed;
     public PluginPPort steering;
     public PluginRPort sensor;
+    public PluginPPort sensorOutput;
 
     public PluginTest2(String[] args) {
         super(args);
@@ -33,6 +34,8 @@ public class PluginTest2 extends PlugInComponent {
         sensor = new PluginRPort(this, "se");
         VM.println("init 3");
         steering = new PluginPPort(this, "st");
+        VM.println("init 4");
+        sensorOutput = new PluginPPort(this, "sen");
     }
 
     public void doFunction() {
@@ -44,6 +47,7 @@ public class PluginTest2 extends PlugInComponent {
                 Thread.sleep(2000);
                 speed.write(0);
                 VM.println(String.valueOf(sensor.readInt()));
+                sensorOutput.write("PluginTest2|" + String.valueOf(sensor.readInt()));
             } catch (InterruptedException e) {
                 VM.println("Interrupted.");
             }

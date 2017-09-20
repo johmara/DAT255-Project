@@ -16,6 +16,9 @@
         <port>
           <name>st</name>
         </port>
+        <port>
+          <name>sen</name>
+        </port>
       </ports>
     </plugin>
   </plugins>
@@ -31,6 +34,10 @@
     <link>
       <from>st</from>
       <to>4</to>
+    </link>
+    <link>
+      <from>sen</from>
+      <to>0</to>
     </link>
   </links>
 </app>
