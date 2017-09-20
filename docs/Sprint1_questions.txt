@@ -12,6 +12,14 @@ previouys courses, which makes starting out a bigger hastle than usual.
 
 Questions:  
 Is it okay to have the MOPEDS organised before starting coloumn driving?
-Is it enough to drive with only sensors?
+	långsiktig vision är att de startar oorganiserat.
+	i sprint planeringen så börja med enkelt och fokusera på att börja i colonn körning. Fokus på acc.
+
+	Blir ny först bil i columnen.
+
 Product Backlog?
+	
 Why is the documentation non generell?
+	
+Så nära som möjligt utan att förlora säkerhet. (Ur MOPED syn). Testa oss fram.
+
