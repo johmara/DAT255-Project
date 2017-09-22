@@ -1,0 +1,28 @@
+<app>
+  <vehicleName>MOPED</vehicleName>
+  <brand>SICS</brand>
+  <plugins>
+    <plugin>
+    <name>DistanceLEDs.suite</name>
+    <ecu>3</ecu>
+      <ports>
+        <port>
+          <name>led</name>
+        </port>
+        <port>
+	  <name>read</name>
+	</port>
+</ports>
+</plugin>
+</plugins>
+<links>
+<link>
+<from>9</from>
+<to>led</to>
+</link>
+<link>
+<from>read</from>
+<to>1</to>
+</link>
+</links>
+</app>

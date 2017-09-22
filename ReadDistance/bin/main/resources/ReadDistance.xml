@@ -10,6 +10,8 @@
         <port>
           <name>se</name>
         </port>
+        <port>
+        	<name>write</name></port>
       </ports>
     </plugin>
   </plugins>
