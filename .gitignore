@@ -1,0 +1,8 @@
+/bin/
+.settings
+pom.xml~
+.project
+.classpath
+DAT255-Project
+.metadata
+.recommenders

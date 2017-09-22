@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<app>
+  <vehicleName>MOPED</vehicleName>
+  <brand>SICS</brand>
+  <plugins>
+    <plugin>
+      <name>ReadDistance.suite</name>
+      <ecu>2</ecu>
+      <ports>
+        <port>
+          <name>se</name>
+        </port>
+      </ports>
+    </plugin>
+  </plugins>
+  <links>
+    <link>
+      <from>13</from>
+      <to>se</to>
+    </link>
+    <link>
+    	<from>write</from>
+    	<to>11</to></link>
+  </links>
+</app>
