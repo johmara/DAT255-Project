@@ -160,3 +160,17 @@ Command-line arguments:  -data file:/chalmers/users/nakhle/Programming/SEP/ -os 
 !ENTRY org.eclipse.m2e.logback.appender 2 0 2017-09-22 10:12:51.887
 !MESSAGE Exception caught during execution of command '[git, config, --system, --edit]' in '/chalmers/sw/sup64/phc/b/binh', return code '128', error message 'fatal: Could not switch to '/chalmers/sw/sup64/git-2.10.0/etc/': No such file or directory
 '
+!SESSION 2017-09-22 11:30:12.656 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_144
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os linux -ws gtk -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.core.resources 2 10035 2017-09-22 11:30:37.360
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2017-09-22 11:30:38.411
+!MESSAGE Exception caught during execution of command '[git, config, --system, --edit]' in '/chalmers/sw/sup64/phc/b/binh', return code '128', error message 'fatal: Could not switch to '/chalmers/sw/sup64/git-2.10.0/etc/': No such file or directory
+'

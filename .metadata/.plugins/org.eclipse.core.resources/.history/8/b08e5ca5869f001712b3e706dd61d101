@@ -5,7 +5,7 @@
   <plugins>
     <plugin>
       <name>ReadDistance.suite</name>
-      <ecu>2</ecu>
+      <ecu>3</ecu>
       <ports>
         <port>
           <name>se</name>
@@ -19,7 +19,7 @@
       <to>se</to>
     </link>
     <link>
-    	<from>write</from>
-    	<to>11</to></link>
+    	<from>led</from>
+    	<to>9</to></link>
   </links>
 </app>

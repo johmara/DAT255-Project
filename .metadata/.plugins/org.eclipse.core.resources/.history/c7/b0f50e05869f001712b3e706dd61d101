@@ -8,6 +8,8 @@ import sics.port.PluginRPort;
 public class ReadDistance extends PlugInComponent {
 	public PluginRPort sensor;
 	public PluginPPort S2Vw;
+	public PluginRPort S2Vr;
+	public PluginPPort LED;
 	
 	public ReadDistance(String args[]) {
 		super(args);
@@ -24,13 +26,25 @@ public class ReadDistance extends PlugInComponent {
 			// Initiate PluginPPort
 			VM.println("init ports");
 			sensor = new PluginRPort(this, "se");
+			LED = new PluginPPort(this, "led");
+			S2Vr = new PluginRPort(this, "read");
 			S2Vw = new PluginPPort(this, "write");
 		    }
 	 
 	 public void doFunction() throws InterruptedException {
-		 while(true){
-		 S2Vw.write("Distance:" + sensor.readInt());
-		 }
+		 int distance;
+		 
+		while(true){
+			distance = sensor.readInt();
+			if(distance >= 100) {
+				LED.write("3|0"); LED.write("2|1"); LED.write("1|1");  
+			} else if (distance > 50) {
+				LED.write("3|1"); LED.write("2|0"); LED.write("1|1"); 
+			} else {
+				LED.write("3|1"); LED.write("2|1"); LED.write("1|0"); 
+			}
+		}
+		
 		
 	 }
 	
