@@ -1,0 +1,2 @@
+eclipse.preferences.version=1
+org.eclipse.jdt.launching.PREF_VM_XML=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\n<vmSettings defaultVM\="57,org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType13,1505811749574" defaultVMConnector\="">\n<vmType id\="org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType">\n<vm id\="1505811749574" name\="jdk-1.8.0_144" path\="/nfs4/sol.ita.chalmers.se/ufs/groups/manual03/sup/sup64/jdk-1.8.0_144"/>\n</vmType>\n</vmSettings>\n
