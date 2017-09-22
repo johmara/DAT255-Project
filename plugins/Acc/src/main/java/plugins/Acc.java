@@ -1,7 +1,7 @@
 /**
  * Acc version 1.0
  *
- * @author Johan Martinson, Joakim Willard & Daniel Rydén
+ * @author Johan Martinson, Joakim Willard, Daniel Rydén & Viktor Albihn.
  */
 package plugins;
 
@@ -12,9 +12,9 @@ import sics.port.PluginRPort;
 public class Acc extends PlugInComponent {
 
     public PluginPPort pportSpeed;
-    public PluginRPort rportDistance, rportFWheel, rportRWheel;
+    public PluginRPort rportDistance, rportFWheel, rportRWheel, rportBattery;
 
-    private int speedSet, speedF, speedR, dist, sA;
+    private int speedSet, speedF, speedR, dist, sA, battery;
 
     public Acc() {
     }
@@ -34,6 +34,7 @@ public class Acc extends PlugInComponent {
         rportDistance = new PluginRPort(this, "rportDistance");
         rportFWheel = new PluginRPort(this, "rportFWheel");
         rportRWheel = new PluginRPort(this, "rportRWheel");
+        rportBattery = new PluginRPort(this, "rportBattery");
         speedSet = 0;
     }
 
@@ -45,17 +46,18 @@ public class Acc extends PlugInComponent {
             speedF = rportFWheel.readInt();
             speedR = rportRWheel.readInt();
             dist = rportDistance.readInt();
+            battery = rportBattery.readInt();
 
             sA = (speedF + speedR) / 2;
             sA = Math.round(sA);
 
             //if (sA > 95) {
-            if (dist < desiredDist(sA)) {
-                speedSet = maintainSpeed() - aquireControllSignal(); //aquire a negative control signal
-            } else if (dist > desiredDist(sA)) {
-                speedSet = aquireControllSignal(); //aquire a positive control signal
+            if (dist < desiredDist()) {
+                speedSet = maintainSpeed(sA) - aquireControllSignal(sA, 0); //aquire a negative control signal
+            } else if (dist > desiredDist()) {
+                speedSet = aquireControllSignal(sA, 1); //aquire a positive control signal
             } else {
-                speedSet = aquireControllSignal();
+                speedSet = maintainSpeed(sA);
             }
             //}
 
@@ -72,20 +74,23 @@ public class Acc extends PlugInComponent {
 
     /**
      *
-     * @param sA cm/sec
      * @return a distance in cm
      */
-    private int desiredDist(int sA) {
-
-        return -1;
+    private int desiredDist() {
+        return 30;
     }
 
     /**
      *
      * @return a controllsignal
      */
-    private int maintainSpeed() {
-
+    private int maintainSpeed(int speed) {
+        // f(x) = 0.98x - 22.3
+        if (battery > 50%){
+            return (speed*0.98)-22.3;
+        }else {
+            return ()
+        }
         return 300; //standard värde för fel eftersom skalan går från -100 till 100
     }
 
@@ -93,7 +98,27 @@ public class Acc extends PlugInComponent {
      *
      * @return a controllsignal
      */
-    private int aquireControllSignal() {
+    private int aquireControllSignal(int speed, int index) {
+        // f(x) = 0.98x - 22.3
+        int speedtmp
+        if (battery > 50%){
+            /*decrease speed*/
+            if (index == 0){
+                speedtmp = speed-0.98;
+                return Math.round((speedtmp*0.98)-22.3);
+            }else if(index == 1){/*increase speed*/
+                speedtmp = speed+0.98;
+                return Math.round((speedtmp*0.98)-22.3);
+            }
+        }else{
+            if (index == 0){
+                speedtmp = speed-0.94;
+                return Math.round((speedtmp*0.94)-10.2);
+            }else if(index == 1){
+                speedtmp = speed+0.94;
+                return Math.round((speedtmp*0.94)-10.2);
+            }
+        }
 
         return 300;
     }
