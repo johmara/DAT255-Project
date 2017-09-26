@@ -37,7 +37,7 @@ public class SCUDistReader extends PlugInComponent {
             int dist;
             while(true) {
                 dist = sensorInput.readInt();
-                sensorOutput.write(dist);
+                sensorOutput.send(String.valueOf(dist));
                 Thread.sleep(500);
             }
         } catch(InterruptedException ie){

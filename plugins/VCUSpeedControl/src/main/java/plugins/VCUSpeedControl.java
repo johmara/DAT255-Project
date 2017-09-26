@@ -1,5 +1,6 @@
 package plugins;
 
+import com.sun.squawk.VM;
 import sics.plugin.PlugInComponent;
 import sics.port.PluginPPort;
 import sics.port.PluginRPort;
@@ -16,7 +17,7 @@ public class VCUSpeedControl extends PlugInComponent {
     }
 
     public static void main(String[] args) {
-        SCUDistReader instance = new SCUDistReader(args);
+        VCUSpeedControl instance = new VCUSpeedControl(args);
         instance.run();
     }
 
@@ -37,8 +38,9 @@ public class VCUSpeedControl extends PlugInComponent {
     private void doFunction(){
         while (true) {
             try {
-                if (sensor.readInt() < 100) {
+                if (readDist() < 100) {
                     speed.write(0);
+                    steering.write(0);
                 } else {
                     steering.write(0);
                     Thread.sleep(2000);
@@ -50,5 +52,23 @@ public class VCUSpeedControl extends PlugInComponent {
                 //VM.println("Interrupted.");
             }
         }
+    }
+
+    private int readDist(){
+
+        int dist;
+        Object obj = sensor.receive();
+        if (obj != null) {
+            String s = (String) obj;
+            try {
+                dist = Integer.parseInt(s);
+            } catch (NumberFormatException e) {
+                VM.println("format exception (" + s + ")");
+                dist = -1;
+            }
+        } else {
+            dist = -1;
+        }
+        return dist;
     }
 }
