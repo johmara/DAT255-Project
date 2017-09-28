@@ -1,36 +1,67 @@
 public class SensorMockup {
 
-    private int startDist, frontSpeed, backSpeed;
+    private int dist, fSpeed, bSpeed, mockupCase;
 
-    public SensorMockup(){
+    public SensorMockup(int mockupCase){
+        this.mockupCase = mockupCase;
         init();
     }
 
+    /**
+     * speeds are given in cm/s, 
+     * standard speed is 30 cm/s
+     */
     private void init(){
-        startDist = 50;
+        switch (mockupCase) {
+            case 1://from standing still too far away
+                dist = 50;
+                fSpeed = 0;
+                bSpeed = 0;
+                break;
+            case 2: //from standing still too close
+                dist = 10;
+                fSpeed = 0;
+                bSpeed = 0;
+                break;
+            case 3: //from standing still at desired distance 
+                dist = 15;
+                fSpeed = 0;
+                bSpeed = 0;
+                break;
+            case 4: //speed too low too far away
+                dist = 50;
+                fSpeed = 10;
+                bSpeed = 10;
+                break;
+            case 5: //speed too high too close
+                dist = 10;
+                fSpeed = 40;
+                bSpeed = 40;
+                break;
+        }
     }
 
     public int getFrontWheelSpeed(){
-        return 0;
+        return fSpeed;
     }
 
     public int getBackWheelSpeed(){
-        return 0;
+        return bSpeed;
     }
 
     public double batteryOutput(){
-        return 0;
+        return 100;
     }
 
     public int getDist(){
-        return 0;
+        return dist;
     }
 
-    public void setFrontSpeed(int speed){
-        frontSpeed = speed;
+    public void setfSpeed(int speed){
+        fSpeed = speed;
     }
 
-    public void setBackSpeed(int speed){
-        backSpeed = speed;
+    public void setbSpeed(int speed){
+        bSpeed = speed;
     }
 }

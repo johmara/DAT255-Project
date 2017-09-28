@@ -42,7 +42,7 @@ public class MopedMockup {
     }
 
     private int desiredDist() {
-        return 30;
+        return 15;
     }
 
     /**
