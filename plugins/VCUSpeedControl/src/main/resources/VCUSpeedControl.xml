@@ -28,6 +28,9 @@
         <port>
           <name>ab</name>
         </port>
+        <port>
+          <name>fw</name>
+        </port>
       </ports>
     </plugin>
   </plugins>
@@ -43,6 +46,10 @@
     <link>
       <from>fs</from>
       <to>ab</to>
+    </link>
+    <link>
+      <from>5</from>
+      <to>fw</to>
     </link>
   </links>
 </app>

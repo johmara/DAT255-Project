@@ -32,6 +32,9 @@ public class SCUDistReader extends PlugInComponent {
         // do functions, for example, read front wheel speed value from sensor and then publish through MQTT
     }
 
+    /**
+     * Reads the distance from the ultrasonic sensor and then sends it over the CAN-bus ever half second
+     */
     private void doFunction(){
         try{
             int dist;
