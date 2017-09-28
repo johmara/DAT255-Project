@@ -4,7 +4,25 @@
   <brand>SICS</brand>
   <plugins>
     <plugin>
-      <name>SCUDistReader.suite</name>
+      <name>Acc.suite</name>
+      <ecu>2</ecu>
+      <ports>
+        <port>
+          <name>pportSpeed</name>
+        </port>
+        <port>
+          <name>rportDistance</name>
+        </port>
+        <port>
+          <name>rportFWheel</name>
+        </port>
+        <port>
+          <name>rportRWheel</name>
+        </port>
+      </ports>
+    </plugin>
+    <plugin>
+      <name>DistReader.suite</name>
       <ecu>3</ecu>
       <ports>
         <port>
@@ -15,46 +33,6 @@
         </port>
       </ports>
     </plugin>
-    <!-- ACC Plugin -->
-    <plugin>
-      <name>Acc.suite</name>
-      <ecu>2</ecu>
-      <ports>
-        <port>
-          <name>pportSpeed</name>
-        </port>
-        <port>
-          <name>rportFWheel</name>
-        </port>
-        <port>
-          <name>rportRWheel</name>
-        </port>
-        <port>
-          <name>rportDistance</name>
-        </port>
-      </ports>
-    </plugin>
-    <!-- VCUSpeed Plugin
-    <plugin>
-      <name>VCUSpeedControl.suite</name>
-      <ecu>2</ecu>
-      <ports>
-        <port>
-          <name>sp</name>
-        </port>
-        <port>
-          <name>st</name>
-        </port>
-        <port>
-          <name>fw</name>
-        </port>
-        <port>
-          <name>ab</name>
-        </port>
-      </ports>
-    </plugin>
-    -->
-
   </plugins>
   <links>
     <link>

@@ -4,11 +4,23 @@
     <brand>SICS</brand>
     <plugins>
         <plugin>
+            <name>SCUDistReader.suite</name>
+            <ecu>3</ecu>
+            <ports>
+                <port>
+                    <name>fs</name>
+                </port>
+                <port>
+                    <name>ff</name>
+                </port>
+            </ports>
+        </plugin>
+        <plugin>
             <name>Acc.suite</name>
             <ecu>2</ecu>
             <ports>
                 <port>
-                    <name>pport</name>
+                    <name>pportSpeed</name>
                 </port>
                 <port>
                     <name>rportDistance</name>
@@ -24,11 +36,11 @@
     </plugins>
     <links>
         <link>
-            <from>pport</from>
+            <from>pportSpeed</from>
             <to>3</to>
         </link>
         <link>
-            <from>13</from>
+            <from>fs</from>
             <to>rportDistance</to>
         </link>
         <link>

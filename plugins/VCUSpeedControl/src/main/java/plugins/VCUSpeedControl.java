@@ -9,6 +9,8 @@ public class VCUSpeedControl extends PlugInComponent {
     private PluginPPort speed;
     private PluginRPort sensor;
     private PluginPPort steering;
+    //private PluginRPort frontWheelSpeed;
+    //private PluginRPort backWheelSpeed
 
     public VCUSpeedControl() {}
 
@@ -27,6 +29,8 @@ public class VCUSpeedControl extends PlugInComponent {
         speed = new PluginPPort(this, "sp");
         steering = new PluginPPort(this, "st");
         sensor = new PluginRPort(this, "ab");
+        //frontWheelSpeed = new PluginRPort(this, "fw");
+        //backWheelSpeed = new PluginRPort(this, "bw");
     }
 
     public void run() {
@@ -36,6 +40,8 @@ public class VCUSpeedControl extends PlugInComponent {
     }
 
     private void doFunction(){
+        //int speedControlSignal = 7;
+        //int actuallSpeed;
         while (true) {
             try {
                 if (readDist() < 100) {
@@ -44,8 +50,13 @@ public class VCUSpeedControl extends PlugInComponent {
                 } else {
                     steering.write(0);
                     Thread.sleep(2000);
-                    speed.write(7);
+                    speed.write(7/*speedControlSignal*/);
                     Thread.sleep(2000);
+                    //actuallSpeed = (frontWheelSpeed.readInt() + backWheelSpeed.readInt()) / 2;
+                    /*if(actuallSpeed <= 10 cm/s){
+                        speedControlSignal++;
+                    }
+                     */
                     speed.write(0);
                 }
             } catch (InterruptedException e) {
@@ -54,8 +65,12 @@ public class VCUSpeedControl extends PlugInComponent {
         }
     }
 
-    private int readDist(){
+    /**
+     * Receives an object from the SCU which it performs checks on.
+     * @return the distance from the ultrasonic sensor
+     */
 
+    private int readDist(){
         int dist;
         Object obj = sensor.receive();
         if (obj != null) {
