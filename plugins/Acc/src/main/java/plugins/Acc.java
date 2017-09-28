@@ -165,5 +165,6 @@ public class Acc extends PlugInComponent {
         } else {
             dist = -1;
         }
-        return dist;    }
+        return dist;
+    }
 }
