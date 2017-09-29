@@ -9,18 +9,18 @@ public class Main {
         MopedMockup mmFollow = new MopedMockup(sm, 1);
         MopedMockup mmLeader = new MopedMockup(sm, 0);
 
-        Thread tsm = new Thread();
-        Thread tmmFollow = new Thread();
-        Thread tmmLeader = new Thread();
+        Thread tsm = new Thread(sm);
+        Thread tmmFollow = new Thread(mmFollow);
+        Thread tmmLeader = new Thread(mmLeader);
 
         try{
             tsm.start();
             tmmFollow.start();
             tmmLeader.start();
 
-            sm.run();
+            /*sm.run();
             mmLeader.run();
-            mmFollow.run();
+            mmFollow.run();*/
         } catch (Exception e){
             e.printStackTrace();
         }

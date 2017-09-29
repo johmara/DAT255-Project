@@ -10,16 +10,28 @@ public class MopedMockup implements Runnable{
     private int follow;
 
     private int speedLead, leaderPos;
+    private int followPos, followSpeed;
+
+    private int counter;
 
     private SensorMockup sm;
 
     public MopedMockup(SensorMockup sm, int follow){
         this.sm = sm;
         this.follow = follow;
+        leaderPos = 0;
+        speedLead = 0;
+        followPos = 0;
+        counter = 0;
     }
 
     private void ACC(){
         while (true) {
+            if (counter == 39){
+                counter=0;
+                System.out.println("Distance: " + dist);
+            }
+            counter++;
 
             speedF = sm.getFrontWheelSpeed();
             speedR = sm.getBackWheelSpeed();
@@ -49,11 +61,20 @@ public class MopedMockup implements Runnable{
 
     private void speed(int setSpeed){
         if(follow == 1){
-
+            sm.setbSpeed(reverseVelocity(setSpeed));
+            sm.setfSpeed(reverseVelocity(setSpeed));
+            if (counter == 39) {
+                followPos += reverseVelocity(setSpeed);
+                sm.setFollowPos(followPos);
+            }
         }else {
-            System.out.println(setSpeed);
+            //speadLead => cm/s
             speedLead = setSpeed;
         }
+    }
+
+    private int reverseVelocity(int setSpeed) {
+        return round(-0.07*(setSpeed^2)+1.69*setSpeed +8.41);
     }
 
     private int desiredDist() {
@@ -150,7 +171,10 @@ public class MopedMockup implements Runnable{
     private void mopedLeader() {
 
         while(true){
+            //System.out.println(leaderPos);
             leaderPos += speedLead;
+            sm.setLeadPos(leaderPos);
+            //System.out.println(speedLead);
             try{
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -192,6 +216,7 @@ public class MopedMockup implements Runnable{
         contentPane.setLayout(new GridLayout(1,2));
         contentPane.add(inputSpeed);
         contentPane.add(okBtn);
+        window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         window.pack();
         window.setVisible(true);
     }

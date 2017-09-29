@@ -1,6 +1,7 @@
 public class SensorMockup implements Runnable{
 
-    private int dist, fSpeed, bSpeed, mockupCase;
+    private int leadPos, followPos, diffPos , fSpeed, bSpeed, mockupCase;
+
 
     public SensorMockup(int mockupCase){
         this.mockupCase = mockupCase;
@@ -14,27 +15,28 @@ public class SensorMockup implements Runnable{
     private void init(){
         switch (mockupCase) {
             case 1://from standing still too far away
-                dist = 50;
+                leadPos = 50;
                 fSpeed = 0;
                 bSpeed = 0;
+                followPos =0;
                 break;
             case 2: //from standing still too close
-                dist = 10;
+                leadPos = 10;
                 fSpeed = 0;
                 bSpeed = 0;
                 break;
             case 3: //from standing still at desired distance 
-                dist = 15;
+                leadPos = 15;
                 fSpeed = 0;
                 bSpeed = 0;
                 break;
             case 4: //speed too low too far away
-                dist = 50;
+                leadPos = 50;
                 fSpeed = 10;
                 bSpeed = 10;
                 break;
             case 5: //speed too high too close
-                dist = 10;
+                leadPos = 10;
                 fSpeed = 40;
                 bSpeed = 40;
                 break;
@@ -54,7 +56,20 @@ public class SensorMockup implements Runnable{
     }
 
     public int getDist(){
-        return dist;
+
+        return diffPos;
+    }
+
+    public void setDist(int dist) {
+        this.diffPos = dist;
+    }
+
+    public void setFollowPos(int followPos){
+        this.followPos = followPos;
+    }
+
+    public void setLeadPos(int leadPos){
+        this.leadPos = leadPos;
     }
 
     public void setfSpeed(int speed){
@@ -67,8 +82,18 @@ public class SensorMockup implements Runnable{
 
     @Override
     public void run() {
-        //Thread.sleep(25); => 40 ggr per sec
-
-
+        int counter = 0;
+        while(true) {
+            if(counter == 39){
+                setDist(leadPos - followPos);
+                counter = 0;
+            }
+            counter++;
+            try {
+                Thread.sleep(25);// => 40 ggr per sec
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
