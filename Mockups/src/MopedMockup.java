@@ -1,14 +1,21 @@
-public class MopedMockup {
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+public class MopedMockup implements Runnable{
 
     private int speedF, speedR, dist, sA, setSpeed;
     private double sAdouble, battery;
+    private int follow;
+
+    private int speedLead, leaderPos;
 
     private SensorMockup sm;
 
-    public MopedMockup(SensorMockup sm){
+    public MopedMockup(SensorMockup sm, int follow){
         this.sm = sm;
-        ACC();
-
+        this.follow = follow;
     }
 
     private void ACC(){
@@ -23,22 +30,30 @@ public class MopedMockup {
             sA = round(sAdouble);
 
             if (dist < desiredDist()) {
-                setSpeed = maintainSpeed(sA) - aquireControllSignal(sA,
-                        0); //aquire a negative control signal
+                setSpeed = maintainSpeed(sA) - aquireControllSignal(sA, 0); //aquire a negative control signal
             } else if (dist > desiredDist()) {
                 setSpeed = aquireControllSignal(sA, 1); //aquire a positive control signal
             } else {
                 setSpeed = maintainSpeed(sA);
             }
-
             speed(setSpeed);
 
+            try{
+                Thread.sleep(25);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
         }
     }
 
     private void speed(int setSpeed){
+        if(follow == 1){
 
+        }else {
+            System.out.println(setSpeed);
+            speedLead = setSpeed;
+        }
     }
 
     private int desiredDist() {
@@ -104,6 +119,81 @@ public class MopedMockup {
             num -= tmp;
             return (int)num;
         }
+    }
+    @Override
+    public void run() {
+        if (follow == 1) {
+            try {
+                System.out.println("Following moped starting ACC()\n");
+                ACC();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else{
+            System.out.println("Leader moped in 'manual' mode\n");
+            //GUI or no?
+            /*
+            * easy to use understand
+            * but harder to implement
+            *
+            * command line makes it harder to controll
+            * and is still quite hard to implement because of the nature of the function
+            *
+            * GUI should be able to change the speed of the car wich is leading th coloumn
+            */
+            initGUI();
+            mopedLeader();
+
+        }
+    }
+
+    private void mopedLeader() {
+
+        while(true){
+            leaderPos += speedLead;
+            try{
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void initGUI() {
+
+        JFrame window = new JFrame("LEADER MOPED");
+        JPanel contentPane = (JPanel) window.getContentPane();
+        JTextField inputSpeed = new JTextField();
+        JButton okBtn = new JButton("OK");
+        okBtn.addActionListener(e ->{
+            String s;
+            int i;
+            s = inputSpeed.getText();
+            s.trim();
+            i = Integer.parseInt(s);
+            speed(i);
+        });
+        inputSpeed.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) okBtn.doClick();
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
+        contentPane.setLayout(new GridLayout(1,2));
+        contentPane.add(inputSpeed);
+        contentPane.add(okBtn);
+        window.pack();
+        window.setVisible(true);
     }
 }
 

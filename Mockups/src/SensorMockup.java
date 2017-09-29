@@ -1,4 +1,4 @@
-public class SensorMockup {
+public class SensorMockup implements Runnable{
 
     private int dist, fSpeed, bSpeed, mockupCase;
 
@@ -63,5 +63,12 @@ public class SensorMockup {
 
     public void setbSpeed(int speed){
         bSpeed = speed;
+    }
+
+    @Override
+    public void run() {
+        //Thread.sleep(25); => 40 ggr per sec
+
+
     }
 }
