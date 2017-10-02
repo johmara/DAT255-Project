@@ -10,28 +10,17 @@ public class MopedMockup implements Runnable{
     private int follow;
 
     private int speedLead, leaderPos;
-    private int followPos, followSpeed;
-
-    private int counter;
 
     private SensorMockup sm;
 
     public MopedMockup(SensorMockup sm, int follow){
         this.sm = sm;
         this.follow = follow;
-        leaderPos = 0;
-        speedLead = 0;
-        followPos = 0;
-        counter = 0;
     }
 
     private void ACC(){
+        int count = 0;
         while (true) {
-            if (counter == 39){
-                counter=0;
-                System.out.println("Distance: " + dist);
-            }
-            counter++;
 
             speedF = sm.getFrontWheelSpeed();
             speedR = sm.getBackWheelSpeed();
@@ -41,6 +30,13 @@ public class MopedMockup implements Runnable{
             sAdouble = (speedF + speedR) / 2;
             sA = round(sAdouble);
 
+
+            if (count == 39) {
+                System.out.println(dist);
+                System.out.println(sA);
+                count = 0;
+            }
+
             if (dist < desiredDist()) {
                 setSpeed = maintainSpeed(sA) - aquireControllSignal(sA, 0); //aquire a negative control signal
             } else if (dist > desiredDist()) {
@@ -49,7 +45,7 @@ public class MopedMockup implements Runnable{
                 setSpeed = maintainSpeed(sA);
             }
             speed(setSpeed);
-
+            count++;
             try{
                 Thread.sleep(25);
             } catch (InterruptedException e) {
@@ -61,20 +57,13 @@ public class MopedMockup implements Runnable{
 
     private void speed(int setSpeed){
         if(follow == 1){
-            sm.setbSpeed(reverseVelocity(setSpeed));
-            sm.setfSpeed(reverseVelocity(setSpeed));
-            if (counter == 39) {
-                followPos += reverseVelocity(setSpeed);
-                sm.setFollowPos(followPos);
-            }
-        }else {
-            //speadLead => cm/s
-            speedLead = setSpeed;
-        }
-    }
 
-    private int reverseVelocity(int setSpeed) {
-        return round(-0.07*(setSpeed^2)+1.69*setSpeed +8.41);
+        } else {
+            System.out.println(setSpeed);
+            speedLead = setSpeed;
+            sm.setfSpeed((int) ((int) (setSpeed+22.3)/0.98));
+            sm.setbSpeed((int) ((int) (setSpeed+22.3)/0.98));
+        }
     }
 
     private int desiredDist() {
@@ -90,9 +79,8 @@ public class MopedMockup implements Runnable{
         if (battery > battery * 0.5){
             return (int) ((speed*0.98)-22.3);
         }else {
-            return (int) ((speed*0.94)-10.2); //satte bara ett värde för retur satsen
+            return (int) ((speed*0.94)-10.2);
         }
-        //return 300; //standard värde för fel eftersom skalan går från -100 till 100
     }
 
     /**
@@ -160,7 +148,7 @@ public class MopedMockup implements Runnable{
             * command line makes it harder to controll
             * and is still quite hard to implement because of the nature of the function
             *
-            * GUI should be able to change the speed of the car wich is leading th coloumn
+            * GUI should be able to change the speed of the car which is leading th coloumn
             */
             initGUI();
             mopedLeader();
@@ -171,10 +159,7 @@ public class MopedMockup implements Runnable{
     private void mopedLeader() {
 
         while(true){
-            //System.out.println(leaderPos);
             leaderPos += speedLead;
-            sm.setLeadPos(leaderPos);
-            //System.out.println(speedLead);
             try{
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -219,6 +204,10 @@ public class MopedMockup implements Runnable{
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         window.pack();
         window.setVisible(true);
+    }
+
+    public void setDist(int dist){
+        this.dist = dist;
     }
 }
 

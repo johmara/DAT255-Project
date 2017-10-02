@@ -10,17 +10,13 @@ public class Main {
         MopedMockup mmLeader = new MopedMockup(sm, 0);
 
         Thread tsm = new Thread(sm);
-        Thread tmmFollow = new Thread(mmFollow);
-        Thread tmmLeader = new Thread(mmLeader);
+        Thread tmmFollow = new Thread(mmLeader);
+        Thread tmmLeader = new Thread(mmFollow);
 
         try{
             tsm.start();
             tmmFollow.start();
             tmmLeader.start();
-
-            /*sm.run();
-            mmLeader.run();
-            mmFollow.run();*/
         } catch (Exception e){
             e.printStackTrace();
         }
