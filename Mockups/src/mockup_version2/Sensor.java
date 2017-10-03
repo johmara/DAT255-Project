@@ -4,7 +4,8 @@ import java.util.concurrent.Semaphore;
 
 public class Sensor implements Runnable{
 
-    private int distance, fwVelocity, bwVelocity, battery;
+    private int fwVelocity, bwVelocity, battery;
+    private float distance;
 
     public Semaphore sensorSem;
 
@@ -15,7 +16,7 @@ public class Sensor implements Runnable{
 
     }
 
-    public void setDistance(int distance) {
+    public void setDistance(float distance) {
         this.distance = distance;
     }
 
@@ -27,7 +28,7 @@ public class Sensor implements Runnable{
         this.fwVelocity = fwVelocity;
     }
 
-    public int getDistance() {
+    public float getDistance() {
         return distance;
     }
 
@@ -46,7 +47,7 @@ public class Sensor implements Runnable{
     @Override
     public void run() {
         while(true) {
-            System.out.println(distance);
+            System.out.println("Distance: " + distance);
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {

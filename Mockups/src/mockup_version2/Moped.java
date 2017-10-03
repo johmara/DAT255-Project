@@ -12,8 +12,10 @@ public class Moped implements Runnable{
     private Sensor sensor;
     private Moped leader;
 
-    private int lxPos, lControlSignal;
-    private int fxPos, fControlSignal;
+    private float lxPos, fxPos;
+
+    private int lControlSignal;
+    private int fControlSignal;
 
     private Semaphore sem;
 
@@ -29,6 +31,7 @@ public class Moped implements Runnable{
         this.sensor = sm;
         this.leader = leader;
         preferedDistance = 20;
+        lxPos = 20;
 
         sem = new Semaphore(1);
 
@@ -55,14 +58,14 @@ public class Moped implements Runnable{
         */
         int counter = 0;
         while (true){
-            if (counter == 39){
+            //if (counter == 39){
                 if(sem.tryAcquire()) {
-                    lxPos = lxPos + lControlSignal;
+                    lxPos = (lxPos + lControlSignal) / 40;
                 }
                 sem.release();
-                counter =0;
-            }
-            counter++;
+              //  counter =0;
+            //}
+            //counter++;
             //System.out.println("velocity Leader: " + lControlSignal + " xPos Leader: " + lxPos);
             try {
                 Thread.sleep(25);
@@ -78,9 +81,9 @@ public class Moped implements Runnable{
      */
     private void follow() {
         int counter = 0;
-        int lxPos = 0;
+        float lxPos = 0;
         while (true) {
-            int dist = 0;
+            float dist = 0;
             if(sensor.sensorSem.tryAcquire()){
                 dist = sensor.getDistance();
             }
@@ -88,18 +91,19 @@ public class Moped implements Runnable{
 
             Acc(dist);
 
-            if (counter == 39){ //bör hända 1 gång per sekund
-                fxPos = fxPos + fControlSignal;
+            //if (counter == 39){ //bör hända 1 gång per sekund
+                fxPos = (fxPos + fControlSignal) / 40;
                 //System.out.println("velocity Follower: " + fControlSignal + " xPos Follower: " + fxPos);
                 counter = 0;
-            }
-            counter++;
+            //}
+            //counter++;
 
             if (sem.tryAcquire()) {
                 lxPos = leader.lxPos;
             }
             sem.release();
             if (sensor.sensorSem.tryAcquire()) {
+
                 sensor.setDistance(lxPos - fxPos);
             }
             sensor.sensorSem.release();
@@ -107,8 +111,15 @@ public class Moped implements Runnable{
     }
 
 
-    private void Acc(int dist) {
-        //helllo
+    private void Acc(float dist) {
+
+        if(dist > preferedDistance) {
+            setControlSignal(fControlSignal + 1);
+        } else if(dist < preferedDistance){
+            setControlSignal(fControlSignal - 1);
+        }
+
+        speed(fControlSignal);
 
         try {
             Thread.sleep(25);
@@ -161,4 +172,7 @@ public class Moped implements Runnable{
         window.setVisible(true);
     }
 
+    public void setControlSignal(int controlSignal) {
+        fControlSignal = controlSignal;
+    }
 }
