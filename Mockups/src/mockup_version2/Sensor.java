@@ -1,12 +1,17 @@
 package mockup_version2;
 
+import java.util.concurrent.Semaphore;
+
 public class Sensor implements Runnable{
 
     private int distance, fwVelocity, bwVelocity, battery;
 
+    public Semaphore sensorSem;
+
 
     public Sensor(){
         this.battery = 100; //100% battery
+        sensorSem = new Semaphore(1);
 
     }
 
