@@ -44,7 +44,9 @@ public class Moped implements Runnable{
         if (follow == 0){
             lControlSignal = i;
         }else {
+            //System.out.println("i: " + i);
             fControlSignal = i;
+            //System.out.println("fControlSignal: " + fControlSignal);
         }
     }
 
@@ -91,7 +93,7 @@ public class Moped implements Runnable{
             Acc(dist);
 
             //if (counter == 39){ //bör hända 1 gång per sekund
-                fxPos = (fxPos + fControlSignal)/40;
+            fxPos = fxPos + fControlSignal;
                 //System.out.println("velocity Follower: " + fControlSignal + " xPos Follower: " + fxPos);
               //  counter = 0;
             //}
@@ -116,10 +118,13 @@ public class Moped implements Runnable{
         }
         sem.release();
 
+        //System.out.println("Distance: " + dist);
+
+
         if (dist > preferedDistance){
-            setControlSignal(controll++);
-        }else if (dist<preferedDistance){
-            setControlSignal(controll--);
+            setControlSignal(controll + 7);
+        }else if (dist < preferedDistance){
+            setControlSignal(controll - 7);
         }else{
             setControlSignal(controll);
         }
@@ -173,6 +178,7 @@ public class Moped implements Runnable{
         contentPane.add(inputSpeed);
         contentPane.add(okBtn);
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        window.setPreferredSize(new Dimension(200,200));
         window.pack();
         window.setVisible(true);
     }
