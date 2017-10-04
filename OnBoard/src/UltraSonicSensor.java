@@ -11,6 +11,7 @@ public class UltraSonicSensor implements IDistance{
     public UltraSonicSensor(CAN can){
         this.can = can;
     }
+
     public int getDistance(){
         try {
             short[] a = can.readSensor();
