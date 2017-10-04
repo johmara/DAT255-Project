@@ -1,7 +1,9 @@
-import java.io.IOException;
-import java.util.Random;
+import absolut.can.CanReader;
+import absolut.can.CanManager;
 
-public final class Platooning {
+import java.io.IOException;
+
+public class Platooning {
   private CAN can;
   private ACC acc;
   private ALC alc;
@@ -21,9 +23,11 @@ public final class Platooning {
     //platooning.start() //TODO entry point for platooning logic
     //TODO user interface (command-line)
 
+    CanReader reader = CanReader.getInstance();
 
     while (true) {
-      can.testSensor();
+      System.out.println(reader.getData());
+      //can.testSensor();
     }
   }
 
