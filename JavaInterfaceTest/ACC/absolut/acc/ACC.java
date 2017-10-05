@@ -1,16 +1,13 @@
 package absolut.acc;
 
-
+import absolut.can.CanReader;
 import static java.lang.Thread.interrupted;
 
 public class ACC implements Runnable {
 
-    private CAN can;
     private Sensor sensor;
 
-    public ACC(CAN can){
-        this.can = can;
-    }
+    public ACC(){}
 
     @Override
     public void run() {
@@ -19,23 +16,26 @@ public class ACC implements Runnable {
     }
 
     private void init() {
-        sensor = new Sensor(can);
+        sensor = new Sensor();
     }
 
     private void doFunction() {
-        int dist = 0;
+        double dist = 0;
         while(true){
             try{
                 dist = sensor.getDistance();
+                System.out.println("Dist: " + dist);
                 if(dist < 100){
-                    can.sendMotorValue((byte) 0);
+                    System.out.println("Stopping motor");
+                    CanReader.getInstance().sendMotorSpeed((byte) 0);
                 }else{
-                    can.sendMotorValue((byte) 50);
+                    System.out.println("Running motor");
+                    CanReader.getInstance().sendMotorSpeed((byte) 50);
                     Thread.sleep(1000);
-                    can.sendMotorValue((byte) 0);
+                    CanReader.getInstance().sendMotorSpeed((byte) 0);
                 }
 
-            }catch(InterruptedException ie){
+            } catch(InterruptedException ie){
                 ie.printStackTrace();
             }
         }

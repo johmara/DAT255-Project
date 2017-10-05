@@ -1,13 +1,14 @@
 package absolut.can;
 
-import java.util.concurrent.Semaphore;
-
 public class CanReader {
 
     private static CanReader instance = null;
     private CanManager canManager;
 
     private String data;
+
+    private byte steerdata = 0;
+    private byte motordata = 0;
 
     public static CanReader getInstance() {
         if (instance == null) {
@@ -26,6 +27,10 @@ public class CanReader {
         return canManager;
     }
 
+    /**
+     * Gets the distance data
+     * @return The distance data from SCU
+     */
     public synchronized String getData() {
         while (data == null) {
             try {
@@ -39,8 +44,36 @@ public class CanReader {
         return tmp;
     }
 
+    /**
+     * Internally sets the distance data
+     * @param s The data from the distance
+     */
     public synchronized void setData(String s) {
         data = s;
         notify();
+    }
+
+    /**
+     * Sets the speed of the motor
+     * Valid values: -100 <-> 100
+     * @param speed The speed to set
+     */
+    public void sendMotorSpeed(byte speed) {
+        sendMotorSteer(speed, steerdata);
+    }
+
+    /**
+     * Sets the current steering of the MOPED
+     * Valid values: -100 <-> 100
+     * @param steer The steering to set
+     */
+    public void sendSteering(byte steer) {
+        sendMotorSteer(motordata, steer);
+    }
+
+    private void sendMotorSteer(byte speed, byte steer) {
+        this.motordata = speed;
+        this.steerdata = steer;
+        canManager.sendMessage(new byte[] {motordata, steerdata});
     }
 }

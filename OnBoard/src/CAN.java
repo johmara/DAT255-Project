@@ -129,7 +129,7 @@ public final class CAN {
    * @throws InterruptedException from sendMotorAndSteerValue
    */
   public void sendSteerValue(byte steer) throws InterruptedException {
-    sendMotorAndSteerValue(motorValue, steer);
+      sendMotorAndSteerValue(motorValue, steer);
   }
 
   /**

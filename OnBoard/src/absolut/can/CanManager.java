@@ -1,32 +1,16 @@
 package absolut.can;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map.Entry;
-
-/*
-import messages.InstallAckMessage;
-import messages.InstallMessage;
-import messages.LinkContextEntry;
-import messages.LoadMessage;
-import messages.Message;
-import messages.MessageType;
-import messages.PWMMessage;
-import messages.PluginMessage;
-import messages.PublishMessage;
-import messages.RestoreMessage;
-import messages.UninstallAckMessage;
-import messages.UninstallMessage;*/
-
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 
-//import ecm.Ecm;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 /**
  * @author Gustaf Järgren
+ * @author Arndt
  */
 public class CanManager implements Runnable {
 
@@ -552,21 +536,19 @@ public class CanManager implements Runnable {
         javaCanLibrary.sendBigData(channelNumber, can_id, 8, totalSize,
                 byteArray);
     }
-
-    private void sendMessage(PWMMessage message) {
-        PWMMessage pwmMessage = (PWMMessage) message;
-        int ecuId = pwmMessage.getRemoteEcuId();
+*/
+    public void sendMessage(byte[] inData) {
+        int ecuId = 2;
         int can_id;
         if (ecuId == 1) {
             can_id = 1124;
         } else {
             can_id = senders.get(ecuId + "-PWM");
         }
-        byte[] data = pwmMessage.getData();
-        System.out.println(ecuId + " " + can_id + " " + Arrays.toString(data));
-        javaCanLibrary.sendData(channelNumber, can_id, data);
+        System.out.println(ecuId + " " + can_id + " " + Arrays.toString(inData));
+        javaCanLibrary.sendData(channelNumber, can_id, inData);
     }
-
+/*
     private void sendMessage(PluginMessage message) {
         PluginMessage pluginMessage = (PluginMessage) message;
         int can_id = senders.get(2 + "-SUB");
