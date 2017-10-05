@@ -71,7 +71,13 @@ public class CanReader {
         sendMotorSteer(motordata, steer);
     }
 
-    private void sendMotorSteer(byte speed, byte steer) {
+    /**
+     * Sets both the speed and steering on the MOPED
+     * Valid values: -100 <-> 100
+     * @param speed The speed to set
+     * @param steer The steering to set
+     */
+    public void sendMotorSteer(byte speed, byte steer) {
         this.motordata = speed;
         this.steerdata = steer;
         canManager.sendMessage(new byte[] {motordata, steerdata});
