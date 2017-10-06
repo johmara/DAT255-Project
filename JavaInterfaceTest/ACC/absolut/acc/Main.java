@@ -1,6 +1,8 @@
 package absolut.acc;
 
+import absolut.can.CanReader;
 import java.io.IOException;
+import org.omg.SendingContext.RunTime;
 
 public class Main {
 
@@ -8,5 +10,12 @@ public class Main {
         ACC acc = new ACC();
         Thread accThread = new Thread(acc);
         accThread.start();
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                CanReader.getInstance().sendMotorSpeed((byte) 0);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }));
     }
 }

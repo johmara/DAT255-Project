@@ -19,8 +19,8 @@ public class Regulator {
     private void init(){
         preferredDistance = 100;
         K = 0.2;
-        Ti = 500000000;
-        Td = 0;
+        Ti = 100;
+        Td = 0.4;
         lastError = 0;
         sensor = new Sensor();
     }
@@ -32,7 +32,10 @@ public class Regulator {
         double error = sensorValue - preferredDistance;
         double controlSignal;
 
-        controlSignal = error * K;
+
+        controlSignal = K * (error + ((error - lastError) / Ti) + Td);
+
+        lastError = error;
 
         return (int) Math.round(controlSignal);
     }
