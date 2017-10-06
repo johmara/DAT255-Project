@@ -34,7 +34,7 @@ public class Regulator {
 
         //controlSignal = K * (error + ((error - lastError) / Ti) + Td);
 
-        controlSignal = K*(1+(0,15/(Ti*1-(error^-1)))+Td*((1-(lastError^-1))/0,15));
+        controlSignal = K*(1+(0.15/(Ti*1-(1/error)))+Td*((1-(1/lastError))/0.15));
 
         lastError = error;
 
