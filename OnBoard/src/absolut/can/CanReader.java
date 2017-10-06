@@ -83,6 +83,5 @@ public class CanReader {
         this.steerdata = steer;
         canManager.sendMessage(new byte[] {motordata, steerdata});
         Thread.sleep(10);
-        System.out.println("Sleeping");
     }
 }
