@@ -78,10 +78,18 @@ public class CanReader {
      * @param steer The steering to set
      */
     public void sendMotorSteer(byte speed, byte steer) throws InterruptedException {
-        if (motordata == speed && steerdata == steer) return;
-        this.motordata = speed;
-        this.steerdata = steer;
+        byte tmpSpeed = clamp(speed, (byte)-100, (byte)100);
+        byte tmpSteer = clamp(steer, (byte)-100, (byte)100);
+        if (motordata == tmpSpeed && steerdata == tmpSteer) return;
+        
+        this.motordata = tmpSpeed;
+        this.steerdata = tmpSteer;
         canManager.sendMessage(new byte[] {motordata, steerdata});
         Thread.sleep(10);
     }
+
+    private byte clamp(byte in, byte min, byte max) {
+        return (byte) Math.max(min, Math.min(in, max));
+    }
+
 }
