@@ -3,7 +3,7 @@ package absolut.acc;
 import absolut.can.CanReader;
 import static java.lang.Thread.interrupted;
 
-public class ACC implements Runnable {
+public class ACC i mplements Runnable {
 
     private CanReader can;
     private Regulator reg;
@@ -44,7 +44,7 @@ public class ACC implements Runnable {
                     CanReader.getInstance().sendMotorSteer((byte) 0, (byte)-40);
                 }*/
 
-                if((lastControlSignal += reg.calcNewSpeed()) < 0) {
+                if((lastControlSignal += reg.calcNewSpeed()) <= 0) {
                     newControlSignal = 0;
                 } else {
                     newControlSignal = lastControlSignal;
