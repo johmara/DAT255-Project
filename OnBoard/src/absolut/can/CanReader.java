@@ -58,7 +58,7 @@ public class CanReader {
      * Valid values: -100 <-> 100
      * @param speed The speed to set
      */
-    public void sendMotorSpeed(byte speed) {
+    public void sendMotorSpeed(byte speed) throws InterruptedException {
         sendMotorSteer(speed, steerdata);
     }
 
@@ -67,7 +67,7 @@ public class CanReader {
      * Valid values: -100 <-> 100
      * @param steer The steering to set
      */
-    public void sendSteering(byte steer) {
+    public void sendSteering(byte steer) throws InterruptedException {
         sendMotorSteer(motordata, steer);
     }
 
@@ -77,9 +77,12 @@ public class CanReader {
      * @param speed The speed to set
      * @param steer The steering to set
      */
-    public void sendMotorSteer(byte speed, byte steer) {
+    public void sendMotorSteer(byte speed, byte steer) throws InterruptedException {
+        if (motordata == speed && steerdata == steer) return;
         this.motordata = speed;
         this.steerdata = steer;
         canManager.sendMessage(new byte[] {motordata, steerdata});
+        Thread.sleep(10);
+        System.out.println("Sleeping");
     }
 }

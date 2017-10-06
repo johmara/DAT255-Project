@@ -27,12 +27,12 @@ public class ACC implements Runnable {
                 System.out.println("Dist: " + dist);
                 if(dist < 100){
                     System.out.println("Stopping motor");
-                    CanReader.getInstance().sendMotorSpeed((byte) 0);
+                    CanReader.getInstance().sendMotorSteer((byte) 0, (byte)-40);
                 }else{
                     System.out.println("Running motor");
-                    CanReader.getInstance().sendMotorSpeed((byte) 50);
+                    CanReader.getInstance().sendMotorSteer((byte) 50, (byte)-40);
                     Thread.sleep(1000);
-                    CanReader.getInstance().sendMotorSpeed((byte) 0);
+                    CanReader.getInstance().sendMotorSteer((byte) 0, (byte)-40);
                 }
 
             } catch(InterruptedException ie){
