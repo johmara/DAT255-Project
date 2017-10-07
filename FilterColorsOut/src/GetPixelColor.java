@@ -26,6 +26,8 @@ public class GetPixelColor {
             //color object
             //Color cyan = new Color(0, 255, 255);
 
+            int count = 0;
+
             //find cyan pixels
             for (int y = 0; y < image1.getHeight(); y++) {
                 for (int x = 0; x < image1.getWidth(); x++) {
@@ -33,10 +35,12 @@ public class GetPixelColor {
                     int c = image1.getRGB(x,y);
                     Color color = new Color(c);
 
-                    if (color.getRed() > 50 && color.getGreen() < 10 && color.getBlue() < 20) {
+                    if (color.getRed() > 100 && color.getGreen() < 10 && color.getBlue() < 10) {
+                        count ++;
                         out.write("Red pixel found at=" + x + "," + y);
                         out.newLine();
                     }
+
 
                     //int  red = (c & 0x0000FFFF) >> 16;
                     //int  green = (c & 0x0000FFFF) >> 8;
@@ -46,6 +50,9 @@ public class GetPixelColor {
 
                 }
             }
+            System.out.println("Red pixels amount: " + count);
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
