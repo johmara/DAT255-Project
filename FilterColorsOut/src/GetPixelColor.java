@@ -16,7 +16,7 @@ public class GetPixelColor {
     public static void main(String args[]) throws IOException {
         try {
             //read image file
-            File file1 = new File("landscape.png");
+            File file1 = new File("Straight.jpg");
             BufferedImage image1 = ImageIO.read(file1);
 
             //write file
@@ -26,7 +26,9 @@ public class GetPixelColor {
             //color object
             //Color cyan = new Color(0, 255, 255);
 
-            int count = 0;
+            int redCount = 0;
+            int blueCount = 0;
+            int greenCount = 0;
 
             //find cyan pixels
             for (int y = 0; y < image1.getHeight(); y++) {
@@ -35,10 +37,20 @@ public class GetPixelColor {
                     int c = image1.getRGB(x,y);
                     Color color = new Color(c);
 
-                    if (color.getRed() > 100 && color.getGreen() < 10 && color.getBlue() < 10) {
-                        count ++;
-                        out.write("Red pixel found at=" + x + "," + y);
-                        out.newLine();
+                    if (color.getRed() > 100 && color.getGreen() < 40 && color.getBlue() < 30) {
+                        redCount ++;
+                        //out.write("Red pixel found at=" + x + "," + y);
+                        //out.newLine();
+                    }
+                    if (color.getRed() < 30 && color.getGreen() > 55 && color.getBlue() < 10) {
+                            greenCount ++;
+                            //out.write("Red pixel found at=" + x + "," + y);
+                            //out.newLine();
+                    }
+                    if (color.getRed() < 120 && color.getGreen() < 80 && color.getBlue() > 65) {
+                        blueCount ++;
+                        //out.write("Red pixel found at=" + x + "," + y);
+                        //out.newLine();
                     }
 
 
@@ -50,7 +62,17 @@ public class GetPixelColor {
 
                 }
             }
-            System.out.println("Red pixels amount: " + count);
+            System.out.println("Red pixels amount: " + redCount);
+            System.out.println("Green pixels amount: " + greenCount);
+            System.out.println("Blue pixels amount: " + blueCount);
+
+            if((redCount - greenCount) < 0) {
+                System.out.println("Turn right");
+            } else if (((greenCount+500) - redCount) < 0) {
+                System.out.println("Turn left");
+            } else {
+                System.out.println("Drive straight");
+            }
 
 
         } catch (IOException e) {
