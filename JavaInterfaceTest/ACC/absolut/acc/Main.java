@@ -10,11 +10,14 @@ public class Main {
         ACC acc = new ACC();
         Thread accThread = new Thread(acc);
         accThread.start();
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            try {
-                CanReader.getInstance().sendMotorSpeed((byte) 0);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    CanReader.getInstance().sendMotorSpeed((byte) 0);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }));
     }

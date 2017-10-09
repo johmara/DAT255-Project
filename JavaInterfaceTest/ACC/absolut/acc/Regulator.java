@@ -34,10 +34,17 @@ public class Regulator {
 
         //controlSignal = K * (error + ((error - lastError) / Ti) + Td);
 
-        controlSignal = K*(error+((1/Ti)*((0.15*(lastError+error))))((Td*error-lastError)/0.15));
+        controlSignal = -K*(error+((1/Ti)*((0.15*(lastError+error))))+((Td*(error-lastError)/0.15));
+        controlSignal = clamp(Math.round(controlSignal), 0, 100);
+        System.out.println(controlSignal);
 
         lastError = error;
 
         return (int) Math.round(controlSignal);
     }
+
+    private double clamp(double in, double min, double max) {
+        return Math.max(min, Math.min(in, max));
+    }
+
 }
