@@ -5,7 +5,6 @@
  */
 package plugins;
 
-import absolut.acc.CAN;
 import com.sun.squawk.VM;
 import sics.plugin.PlugInComponent;
 import sics.port.PluginPPort;
@@ -19,7 +18,7 @@ public class Acc extends PlugInComponent {
     private int speedSet, speedF, speedR, dist, sA, battery;
     private double sAdouble;
 
-    public Acc(CAN can) {
+    public Acc() {
     }
 
     public Acc(String[] args) {

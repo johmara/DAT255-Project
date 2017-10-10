@@ -1,14 +1,16 @@
 package absolut.acc;
 
 import absolut.can.CanReader;
-import static java.lang.Thread.interrupted;
+import absolut.rmi.IMessageReceiver;
+import absolut.rmi.RMIHandler;
 
-public class ACC implements Runnable {
+public class ACC implements Runnable, IMessageReceiver {
 
     private CanReader can;
     private Regulator reg;
 
     public ACC() {
+        RMIHandler.getInstance().addReceiver(this);
     }
 
     @Override
@@ -63,5 +65,10 @@ public class ACC implements Runnable {
                 ie.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void messageReceived(String msg) {
+        // Messages from APP
     }
 }

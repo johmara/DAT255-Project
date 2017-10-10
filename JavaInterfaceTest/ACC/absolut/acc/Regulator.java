@@ -1,7 +1,5 @@
 package absolut.acc;
 
-import absolut.can.CanReader;
-
 public class Regulator {
 
     private Sensor sensor;
@@ -34,7 +32,7 @@ public class Regulator {
 
         //controlSignal = K * (error + ((error - lastError) / Ti) + Td);
 
-        controlSignal = -K*(error+((1/Ti)*((0.15*(lastError+error))))+((Td*(error-lastError)/0.15));
+        controlSignal = -K*(error+((1/Ti)*((0.15*(lastError+error))))+((Td*(error-lastError)/0.15)));
         controlSignal = clamp(Math.round(controlSignal), 0, 100);
         System.out.println(controlSignal);
 
