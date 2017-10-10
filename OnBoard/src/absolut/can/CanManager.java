@@ -55,10 +55,10 @@ public class CanManager implements Runnable {
                     try {
                         byte[] parsedData = parseByteData(data[0]);
                         switch (parsedData[0]) {
-                            /*case MessageType.INSTALL_ACK:
+                            case 1:
 
                                 //System.out.println(" plugin id " + parsedData[1]);
-                                if(ecm.hasPluginInTmpDB(parsedData[1])) {
+                                /*if(ecm.hasPluginInTmpDB(parsedData[1])) {
                                     System.out.println(">>> ecm-core/CanEcuManager " + parsedData[0]);
                                     String pluginName = ecm
                                             .getPluginNameFromTmpDB(parsedData[1]);
@@ -68,9 +68,9 @@ public class CanManager implements Runnable {
                                 } else {
                                     //							System.out.println("There is no corresponding Plugin ID " + parsedData[1] + " in temporary DB");
                                 }
-                                break;
-                            case MessageType.UNINSTALL_ACK:
-                                byte pluginId4Uninstall = parsedData[1];
+                                break;*/
+                            case 2:
+                                /*byte pluginId4Uninstall = parsedData[1];
                                 if (pluginId4Uninstall == 51 && !ecm.hasPluginInUninstallCache(pluginId4Uninstall)) {
                                     // special case for a raw message sent from VCU giving speed - Ecm shouldn't really see it.
                                     break;
@@ -82,8 +82,8 @@ public class CanManager implements Runnable {
                                     ecm.process(uninstallAckMessage);
                                 } else {
                                     System.out.println("There is no corresponding Plugin ID " + parsedData[1] + " in uninstall cache");
-                                }
-                                break;*/
+                                }*/
+                                break;
                             case 3:
                                 int index = 1;
 
