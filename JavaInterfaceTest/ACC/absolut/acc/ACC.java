@@ -54,7 +54,7 @@ public class ACC implements Runnable, IMessageReceiver {
                 } else {
                     newControlSignal = lastControlSignal;
                 }*/
-                newControlSignal = reg.calcNewSpeed();
+                newControlSignal = reg.calcNewSpeed(lastControlSignal);
 
 
 
