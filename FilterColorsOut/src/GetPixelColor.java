@@ -1,9 +1,8 @@
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
 import javax.imageio.ImageIO;
 
 public class GetPixelColor {
@@ -14,10 +13,49 @@ public class GetPixelColor {
      * @throws IOException
      */
     public static void main(String args[]) throws IOException {
+        findURL();
+
+    }
+
+    public static String findURL() {
+        URL url = null;
+        File folder = null;
+        String urlAdress = "ftp://gustaf:absolut@chassit.xyz/home/gustaf/moped/position/Optipos/Connected/";
+
+        try {
+            url = new URL("ftp://gustaf:absolut@chassit.xyz/home/gustaf/moped/position/Optipos/Connected/");
+            //folder = new File (url.toURI());
+            URLConnection urlc = url.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(urlc.getInputStream()));
+
+            String inputLine;
+            String pictureName;
+            while((inputLine = in.readLine()) != null) {
+
+                String str = inputLine;
+                String[] parts = str.split(" ");
+                pictureName = parts[22];
+
+                scanPicture(new URL(urlAdress+pictureName));
+
+            }
+            in.close();
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "left.jpg";
+
+    }
+
+
+    public static void scanPicture(URL picture) {
         try {
             //read image file
-            File file1 = new File("Straight.jpg");
-            BufferedImage image1 = ImageIO.read(file1);
+            //File file1 = new File(picture);
+            //BufferedImage image1 = ImageIO.read(file1);
+            BufferedImage image1 = ImageIO.read(picture);
 
             //write file
             FileWriter fstream = new FileWriter("pixellog1.txt");
@@ -61,13 +99,17 @@ public class GetPixelColor {
                 System.out.println("Turn right");
             } else if (((greenCount+500) - redCount) < 0) {
                 System.out.println("Turn left");
-            } else {
+            } else if (blueCount > 1300){
                 System.out.println("Drive straight");
+            } else {
+                System.out.println("Don't know where to go :(");
             }
+            System.out.println();
 
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 }
