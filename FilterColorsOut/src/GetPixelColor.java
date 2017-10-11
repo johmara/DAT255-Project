@@ -19,7 +19,6 @@ public class GetPixelColor {
 
     public static String findURL() {
         URL url = null;
-        File folder = null;
         String urlAdress = "ftp://gustaf:absolut@chassit.xyz/home/gustaf/moped/position/Optipos/Connected/";
 
         try {
