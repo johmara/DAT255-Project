@@ -23,8 +23,6 @@ public class GetPixelColor {
             FileWriter fstream = new FileWriter("pixellog1.txt");
             BufferedWriter out = new BufferedWriter(fstream);
 
-            //color object
-            //Color cyan = new Color(0, 255, 255);
 
             int redCount = 0;
             int blueCount = 0;
@@ -43,22 +41,15 @@ public class GetPixelColor {
                         //out.newLine();
                     }
                     if (color.getRed() < 30 && color.getGreen() > 55 && color.getBlue() < 10) {
-                            greenCount ++;
-                            //out.write("Red pixel found at=" + x + "," + y);
-                            //out.newLine();
+                        greenCount ++;
+                        //out.write("Red pixel found at=" + x + "," + y);
+                        // out.newLine();
                     }
-                    if (color.getRed() < 120 && color.getGreen() < 80 && color.getBlue() > 65) {
+                    if (color.getRed() < 110 && color.getGreen() < 80 && color.getBlue() > 65) {
                         blueCount ++;
                         //out.write("Red pixel found at=" + x + "," + y);
                         //out.newLine();
                     }
-
-
-                    //int  red = (c & 0x0000FFFF) >> 16;
-                    //int  green = (c & 0x0000FFFF) >> 8;
-                    //int  blue = c & 0x0000FFFF;
-
-                    //if (cyan.equals(image1.getRGB(x, y)){
 
                 }
             }
