@@ -26,9 +26,6 @@ public class CarDriver implements Runnable {
 	private ExecutorService mExecutorService = null; // thread pool
 
 	public CarDriver(int pwmEcuId) {
-		if (System.getSecurityManager() == null) {
-            System.setSecurityManager(new SecurityManager());
-        }
 		this.pwmEcuId = pwmEcuId;
 	}
 
@@ -116,10 +113,13 @@ public class CarDriver implements Runnable {
 	    }
 
 	    private void sendMessage(String message) throws RemoteException {
-	        if (comp != null) {
+			System.out.println("Trying to send message: " + message);
+			if (comp != null) {
 	            comp.messageTask(message);
+				System.out.println("Message sent" + message);
 	        } else if (setComp()){
 	            comp.messageTask(message);
+				System.out.println("Message sent" + message);
 	        }
 	    }
 
@@ -142,13 +142,14 @@ public class CarDriver implements Runnable {
 						
 						/* Convert the data into a format that will be understood on the recipient side and send it */ 
 						String str = new String(incomingBytes, "UTF-8");
-						byte[] data = interpretWirelessino(str);
 						PWMMessage pwmMessage = null;
+						System.out.println("Message received: " + str);
 						if (str.charAt(0) == 'S') {
 							pwmMessage = new PWMMessage(1, incomingBytes);
 						} else if (str.charAt(0) == 'A'){
 							sendMessage(str);
 						} else {
+							byte[] data = interpretWirelessino(str);
 							pwmMessage = new PWMMessage(pwmEcuId, data);
 						}
 						if (pwmMessage != null) {

@@ -17,8 +17,8 @@ public class Regulator {
 
     private void init(){
         preferredDistance = 100;
-        //K = 0.6
-        K = 0.2;
+        K = 0.6;
+        //K = 0.2;
         Ti = 100;
         Td = 0.4;
         lastError = 0;
@@ -35,10 +35,10 @@ public class Regulator {
         //controlSignal = K * (error + ((error - lastError) / Ti) + Td);
 
 
-        //controlSignal = K * error + ((lastError - error)/Ti) + Td + lastControlSignal;
+        controlSignal = K * error + ((lastError - error)/Ti) + Td + lastControlSignal;
 
 
-        controlSignal = K*(error+((1/Ti)*((0.15*(lastError-error))))+((Td*(lastError-error)/0.15)));
+        //controlSignal = K*(error+((1/Ti)*((0.15*(lastError-error))))+((Td*(lastError-error)/0.15)));
         controlSignal = clamp(Math.round(controlSignal), 0, 100);
 
 

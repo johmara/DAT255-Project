@@ -1,5 +1,6 @@
 package absolut.rmi;
 
+import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -14,9 +15,9 @@ public class RMIHandler implements IMessageHandler {
     private RMIHandler(){
         super();
         this.receivers = new ArrayList<>();
-        if (System.getSecurityManager() == null) {
-            System.setSecurityManager(new SecurityManager());
-        }
+        //if (System.getSecurityManager() == null) {
+            //System.setSecurityManager(new RMISecurityManager());
+        //}
     }
 
     public static RMIHandler getInstance() {
@@ -54,6 +55,7 @@ public class RMIHandler implements IMessageHandler {
 
     @Override
     public void messageTask(String message) throws RemoteException {
+        System.out.println(message);
         for (IMessageReceiver receiver: receivers)
             receiver.messageReceived(message);
     }

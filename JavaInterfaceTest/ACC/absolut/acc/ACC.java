@@ -70,5 +70,6 @@ public class ACC implements Runnable, IMessageReceiver {
     @Override
     public void messageReceived(String msg) {
         // Messages from APP
+        System.out.println(msg);
     }
 }
