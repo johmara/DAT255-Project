@@ -17,6 +17,7 @@ public class GetPixelColor extends Thread{
     //CanReader Can;
     public static void main(String args[]) throws IOException, InterruptedException {
         //Can = new CanReader;
+        float kvot;
         while(true){
             findURL();
 
@@ -90,6 +91,9 @@ public class GetPixelColor extends Thread{
             }
 
 
+            //redCounterLeft/redCounterRight = kvot;
+            //if (kvot > 0.9 || kvot < 1.1)
+            //    System.out.println("Drive straight " + redCounterLeft + "     " + redCounterRight);
             if (Math.abs(redCounterLeft - redCounterRight) < 4000)
                 System.out.println("Drive straight " + redCounterLeft + "     " + redCounterRight);
             else if(redCounterLeft > redCounterRight)
@@ -118,5 +122,4 @@ public class GetPixelColor extends Thread{
             e.printStackTrace();
         }
     }
-
 }
