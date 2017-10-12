@@ -22,7 +22,7 @@ public class GetPixelColor {
         String urlAdress = "ftp://gustaf:absolut@chassit.xyz/home/gustaf/moped/position/Optipos/Connected/";
 
         try {
-            url = new URL("ftp://gustaf:absolut@chassit.xyz/home/gustaf/moped/position/Optipos/Connected/");
+            url = new URL(urlAdress);
             //folder = new File (url.toURI());
             URLConnection urlc = url.openConnection();
             BufferedReader in = new BufferedReader(new InputStreamReader(urlc.getInputStream()));
