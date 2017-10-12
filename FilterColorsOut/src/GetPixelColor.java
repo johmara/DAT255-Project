@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import javax.imageio.ImageIO;
+import java.math.*;
 
 public class GetPixelColor extends Thread{
 
@@ -17,7 +18,7 @@ public class GetPixelColor extends Thread{
         while(true){
             findURL();
 
-            Thread.sleep(1000);
+            //Thread.sleep(1);
         }
 
 
@@ -67,51 +68,31 @@ public class GetPixelColor extends Thread{
             BufferedWriter out = new BufferedWriter(fstream);
 
 
-            int redCount = 0;
-            int blueCount = 0;
-            int greenCount = 0;
+            int redCounterLeft = 0;
+            int redCounterRight = 0;
+
+            int c;
 
             //find cyan pixels
-            for (int y = 0; y < image1.getHeight(); y++) {
-                for (int x = 0; x < image1.getWidth(); x++) {
+            for (int y = 500; y < 600; y++) {
+                for (int x = 0; x < image1.getWidth();x++){
 
-                    int c = image1.getRGB(x,y);
+                    c = image1.getRGB(x,y);
                     Color color = new Color(c);
 
-                    if (color.getRed() > 110 && color.getGreen() < 60 && color.getBlue() < 50) {
-                        redCount ++;
-                        //out.write("Red pixel found at=" + x + "," + y);
-                        //out.newLine();
-                    }
-                    if (color.getRed() < 55 && color.getGreen() > 55 && color.getBlue() < 60) {
-                        greenCount ++;
-                        //out.write("Red pixel found at=" + x + "," + y);
-                        // out.newLine();
-                    }
-                    if (color.getRed() < 120 && color.getGreen() < 100 && color.getBlue() > 65) {
-                        blueCount ++;
-                        //out.write("Red pixel found at=" + x + "," + y);
-                        //out.newLine();
-                    }
-
+                    if (color.getRed() > 140 && x < image1.getWidth()/2 )
+                        redCounterLeft++;
+                    else if(color.getRed() > 140 && x > image1.getWidth()/2)
+                    redCounterRight++;
                 }
             }
-            System.out.println("Red pixels amount: " + redCount);
-            System.out.println("Green pixels amount: " + greenCount);
-            System.out.println("Purple pixels amount: " + blueCount);
-
-            if((redCount - greenCount) < -10) {
-                System.out.println("Turn right");
-            } else if (((greenCount+500) - redCount) < -10) {
-                System.out.println("Turn left");
-            } else if (blueCount > 1300){
-                System.out.println("Drive straight");
-            } else {
-                System.out.println("Don't know where to go :(");
-            }
-            System.out.println();
 
 
+            if (Math.abs(redCounterLeft - redCounterRight) < 4000)
+                System.out.println("Drive straight " + redCounterLeft + "     " + redCounterRight);
+            else if(redCounterLeft > redCounterRight)
+                System.out.println("Turn left " + redCounterLeft + " > " + redCounterRight );
+            else System.out.println("Turn right " + redCounterRight + " > " + redCounterLeft);
         } catch (IOException e) {
             e.printStackTrace();
         }
