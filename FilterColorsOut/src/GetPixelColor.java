@@ -5,15 +5,21 @@ import java.net.URL;
 import java.net.URLConnection;
 import javax.imageio.ImageIO;
 
-public class GetPixelColor {
+public class GetPixelColor extends Thread{
 
     //int y, x, tofind, col;
     /**
      * @param args the command line arguments
      * @throws IOException
      */
-    public static void main(String args[]) throws IOException {
-        findURL();
+    public static void main(String args[]) throws IOException, InterruptedException {
+
+        while(true){
+            findURL();
+
+            Thread.sleep(1000);
+        }
+
 
     }
 
@@ -72,17 +78,17 @@ public class GetPixelColor {
                     int c = image1.getRGB(x,y);
                     Color color = new Color(c);
 
-                    if (color.getRed() > 100 && color.getGreen() < 40 && color.getBlue() < 30) {
+                    if (color.getRed() > 110 && color.getGreen() < 60 && color.getBlue() < 50) {
                         redCount ++;
                         //out.write("Red pixel found at=" + x + "," + y);
                         //out.newLine();
                     }
-                    if (color.getRed() < 30 && color.getGreen() > 55 && color.getBlue() < 10) {
+                    if (color.getRed() < 55 && color.getGreen() > 55 && color.getBlue() < 60) {
                         greenCount ++;
                         //out.write("Red pixel found at=" + x + "," + y);
                         // out.newLine();
                     }
-                    if (color.getRed() < 110 && color.getGreen() < 80 && color.getBlue() > 65) {
+                    if (color.getRed() < 120 && color.getGreen() < 100 && color.getBlue() > 65) {
                         blueCount ++;
                         //out.write("Red pixel found at=" + x + "," + y);
                         //out.newLine();
@@ -92,11 +98,11 @@ public class GetPixelColor {
             }
             System.out.println("Red pixels amount: " + redCount);
             System.out.println("Green pixels amount: " + greenCount);
-            System.out.println("Blue pixels amount: " + blueCount);
+            System.out.println("Purple pixels amount: " + blueCount);
 
-            if((redCount - greenCount) < 0) {
+            if((redCount - greenCount) < -10) {
                 System.out.println("Turn right");
-            } else if (((greenCount+500) - redCount) < 0) {
+            } else if (((greenCount+500) - redCount) < -10) {
                 System.out.println("Turn left");
             } else if (blueCount > 1300){
                 System.out.println("Drive straight");
