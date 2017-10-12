@@ -13,8 +13,10 @@ public class GetPixelColor extends Thread{
      * @param args the command line arguments
      * @throws IOException
      */
-    public static void main(String args[]) throws IOException, InterruptedException {
 
+    //CanReader Can;
+    public static void main(String args[]) throws IOException, InterruptedException {
+        //Can = new CanReader;
         while(true){
             findURL();
 
@@ -92,6 +94,25 @@ public class GetPixelColor extends Thread{
                 System.out.println("Drive straight " + redCounterLeft + "     " + redCounterRight);
             else if(redCounterLeft > redCounterRight)
                 System.out.println("Turn left " + redCounterLeft + " > " + redCounterRight );
+
+            //Kod som jag tror kan funka, alla siffror e helt påhittade.
+            //else if(redCounterLeft * 0.9 > redCounterRight)
+                    //can.sendSteering(-10);
+            //else if(redCounterLeft * 0.7 > redCounterRight)
+                //can.sendSteering(-40);
+            //else if(redCounterLeft * 0.4 > redCounterRight)
+                //can.sendSteering(-70);
+            //else if(redCounterLeft * 0.1 > redCounterRight)
+                //can.sendSteering(-100);
+            //else if(redCounterRight * 0.9 > redCounterLeft)
+                //can.sendSteering(10);
+            //else if(redCounterRight * 0.7 > redCounterLeft)
+                //can.sendSteering(40);
+            //else if(redCounterRight * 0.4 > redCounterLeft)
+                //can.sendSteering(70);
+            //else if(redCounterRight * 0.1 > redCounterLeft)
+                //can.sendSteering(100);
+
             else System.out.println("Turn right " + redCounterRight + " > " + redCounterLeft);
         } catch (IOException e) {
             e.printStackTrace();
