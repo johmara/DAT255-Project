@@ -5,9 +5,10 @@ public class Regulator {
     private Sensor sensor;
     private int preferredDistance;
     //private int sensorValue;
-    private double K;
-    private double Ti;
-    private double Td;
+    private double Kp;
+    private double Ki;
+    private double Kd;
+    private double Dt;
     private double lastError;
 
 
@@ -16,29 +17,29 @@ public class Regulator {
     }
 
     private void init(){
-        preferredDistance = 100;
-        K = 0.6;
-        //K = 0.2;
-        Ti = 100;
-        Td = 0.4;
+        preferredDistance = 20;
+        Kp = 0.2;
+        Ki = 0.01;
+        Kd = 0.4;
+        Dt = 0.15;
         lastError = 0;
         sensor = new Sensor();
     }
 
 
-    public int calcNewSpeed(int lastControlSignal){
+    public int calcNewSpeed(){
 
         double sensorValue = sensor.getDistance();
         double error = sensorValue - preferredDistance;
         double controlSignal;
+        double integral = 0;
+        double derivate = 0;
 
-        //controlSignal = K * (error + ((error - lastError) / Ti) + Td);
+        integral = integral + (error * Dt);
+        derivate = (error - lastError) / Dt;
 
+        controlSignal = Kp * error + (Ki * integral) + (Kd * derivate);
 
-        controlSignal = K * error + ((lastError - error)/Ti) + Td + lastControlSignal;
-
-
-        //controlSignal = K*(error+((1/Ti)*((0.15*(lastError-error))))+((Td*(lastError-error)/0.15)));
         controlSignal = clamp(Math.round(controlSignal), 0, 100);
 
 
@@ -46,11 +47,7 @@ public class Regulator {
 
         lastError = error;
 
-        if(controlSignal < 7 && controlSignal > 0)
-            return lastControlSignal;
-
-
-        return (int) Math.round(controlSignal) + lastControlSignal;
+        return (int) Math.round(controlSignal);
     }
 
     private double clamp(double in, double min, double max) {

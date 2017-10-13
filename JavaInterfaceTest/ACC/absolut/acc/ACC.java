@@ -26,7 +26,6 @@ public class ACC implements Runnable, IMessageReceiver {
 
     private void doFunction() {
         //double dist = 0;
-        int lastControlSignal = 0;
         int newControlSignal = 0;
         try {
             can.sendSteering((byte) -40);
@@ -54,12 +53,7 @@ public class ACC implements Runnable, IMessageReceiver {
                 } else {
                     newControlSignal = lastControlSignal;
                 }*/
-                newControlSignal = reg.calcNewSpeed(lastControlSignal);
-
-
-
-                lastControlSignal = newControlSignal;
-
+                newControlSignal = reg.calcNewSpeed();
                 can.sendMotorSpeed((byte) newControlSignal);
             } catch(InterruptedException ie){
                 ie.printStackTrace();
