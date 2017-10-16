@@ -11,4 +11,5 @@ public interface JavaCanLibrary extends Library {
 	public Pointer receiveByteData(int chn_num, int can_id);
 	public int getPackageSize();
 	public void resetPackageSize();
+	public void sendSteering();
 }
