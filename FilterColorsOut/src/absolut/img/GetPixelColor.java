@@ -34,15 +34,11 @@ public class GetPixelColor extends Thread {
             e.printStackTrace();
         }
         can = CanReader.getInstance();
-        try {
-            doFunction();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     public static void main(String args[]) throws IOException, InterruptedException {
         GetPixelColor pixel = new GetPixelColor();
+        pixel.start();
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
             @Override
             public void run() {
@@ -54,14 +50,12 @@ public class GetPixelColor extends Thread {
             }
         }));
     }
-    private void doFunction() throws InterruptedException {
-        can.sendMotorSpeed((byte) stop);    //First send to engingen
-        Thread.sleep(2000);
-        can.sendMotorSpeed((byte) speed); //Start the speed
+
+    @Override
+    public void run() {
         while(true){
             scanPicture();
         }
-        //can.sendMotorSpeed((byte) stop);    //testing values
     }
 
     public  String findURL() {

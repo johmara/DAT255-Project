@@ -170,7 +170,7 @@ public class ConvertImage extends JFrame {
 
             //Change these values to pick what to see
             //START CHANGE THESE
-            if (red >= 110 && blue <= 50 && green <= 50)
+            if (red >= 90 && blue <= 50 && green <= 50)
                 c = 0xFF0000;//blue | ((green << 8) | (red << 16));
             else
                 c = 0x000000;
