@@ -14,7 +14,7 @@ public class Main {
             @Override
             public void run() {
                 try {
-                    CanReader.getInstance().sendMotorSpeed((byte) 0);
+                    CanReader.getInstance().sendEmergencyShutdown();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

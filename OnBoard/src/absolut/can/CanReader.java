@@ -72,6 +72,11 @@ public class CanReader implements Runnable {
         sendMotorSteer(motordata, steer);
     }
 
+    public void sendEmergencyShutdown() throws InterruptedException {
+        sendData = new byte[] {0, 0};
+        canManager.sendMessage(sendData);
+    }
+
     /**
      * Sets both the speed and steering on the MOPED
      * Valid values: -100 <-> 100
@@ -86,14 +91,25 @@ public class CanReader implements Runnable {
         this.motordata = tmpSpeed;
         this.steerdata = tmpSteer;
         sentMessage(new byte[] {motordata, steerdata});
+        //canManager.sendMessage(new byte[] {motordata, steerdata});
+        //Thread.sleep(10);
     }
 
-    private void sentMessage(byte[] data) {
+    private synchronized void sentMessage(byte[] data) {
         sendData = data;
         notifyAll();
     }
-    private synchronized void sendMessage(byte[] data) {
-        canManager.sendMessage(data);
+    private synchronized void sendMessage() {
+        while (sendData == null) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        canManager.sendMessage(sendData);
+        sendData = null;
+        notifyAll();
     }
 
     private byte clamp(byte in, byte min, byte max) {
@@ -104,11 +120,7 @@ public class CanReader implements Runnable {
     public void run() {
         while (true) {
             try {
-                while (sendData == null) {
-                    wait();
-                }
-                sendMessage(sendData);
-                sendData = null;
+                sendMessage();
                 Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
