@@ -1,16 +1,17 @@
 package absolut.can;
 
-public class CanReader {
+public class CanReader implements Runnable {
 
-    private static CanReader instance = null;
+    private static volatile CanReader instance = null;
     private CanManager canManager;
 
     private String data;
+    private byte[] sendData;
 
     private byte steerdata = 0;
-    private byte motordata = 0;
+    private byte motordata = -1;
 
-    public static CanReader getInstance() {
+    public synchronized static CanReader getInstance() {
         if (instance == null) {
             instance = new CanReader();
         }
@@ -21,6 +22,7 @@ public class CanReader {
         CanConfigParser.parseCanConfig("canConfig.xml");
         canManager = new CanManager(CanConfigParser.getSenders(), CanConfigParser.getReceivers());
         new Thread(canManager).start();
+        new Thread(this).start();
     }
 
     public CanManager getCanManager() {
@@ -39,9 +41,8 @@ public class CanReader {
                 e.printStackTrace();
             }
         }
-        String tmp = data;
-        data = null;
-        return tmp;
+        //String tmp = data;
+        return data;//tmp;
     }
 
     /**
@@ -50,7 +51,7 @@ public class CanReader {
      */
     public synchronized void setData(String s) {
         data = s;
-        notify();
+        notifyAll();
     }
 
     /**
@@ -81,15 +82,37 @@ public class CanReader {
         byte tmpSpeed = clamp(speed, (byte)-100, (byte)100);
         byte tmpSteer = clamp(steer, (byte)-100, (byte)100);
         if (motordata == tmpSpeed && steerdata == tmpSteer) return;
-        
+
         this.motordata = tmpSpeed;
         this.steerdata = tmpSteer;
-        canManager.sendMessage(new byte[] {motordata, steerdata});
-        Thread.sleep(10);
+        sentMessage(new byte[] {motordata, steerdata});
+    }
+
+    private void sentMessage(byte[] data) {
+        sendData = data;
+        notifyAll();
+    }
+    private synchronized void sendMessage(byte[] data) {
+        canManager.sendMessage(data);
     }
 
     private byte clamp(byte in, byte min, byte max) {
         return (byte) Math.max(min, Math.min(in, max));
     }
 
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                while (sendData == null) {
+                    wait();
+                }
+                sendMessage(sendData);
+                sendData = null;
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

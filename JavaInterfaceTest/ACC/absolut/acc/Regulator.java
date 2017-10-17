@@ -5,10 +5,10 @@ public class Regulator {
     private Sensor sensor;
     private int preferredDistance;
     //private int sensorValue;
-    private double Kp;
-    private double Ki;
-    private double Kd;
-    private double Dt;
+    private double kp;
+    private double ki;
+    private double kd;
+    private double dt;
     private double lastError;
 
     /*Hugos kod*/
@@ -33,10 +33,10 @@ public class Regulator {
 
     private void init(){
         preferredDistance = 40;
-        Kp = 0.85;
-        Ki = 0.00001;
-        Kd = 0.00001;
-        Dt = 100;
+        kp = 0.85;
+        ki = 0.00001;
+        kd = 0.00001;
+        dt = 100;
         lastError = 0;
         sensor = new Sensor();
 
@@ -63,10 +63,10 @@ public class Regulator {
         double integral = 0;
         double derivate = 0;
 
-        integral = integral + (error * Dt);
-        derivate = (error - lastError) / Dt;
+        integral = integral + (error * dt);
+        derivate = (error - lastError) / dt;
 
-        controlSignal = Kp * error + (Ki * integral) + (Kd * derivate);
+        controlSignal = kp * error + (ki * integral) + (kd * derivate);
 
         controlSignal = clamp(Math.round(controlSignal), 0, 100);
 

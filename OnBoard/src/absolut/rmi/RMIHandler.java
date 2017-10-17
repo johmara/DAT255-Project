@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class RMIHandler implements IMessageHandler {
 
-    private static RMIHandler instance;
+    private static volatile RMIHandler instance;
     private ArrayList<IMessageReceiver> receivers;
 
     private RMIHandler(){
@@ -20,7 +20,7 @@ public class RMIHandler implements IMessageHandler {
         //}
     }
 
-    public static RMIHandler getInstance() {
+    public static synchronized RMIHandler getInstance() {
         if (instance == null) {
             instance = new RMIHandler();
             try {
