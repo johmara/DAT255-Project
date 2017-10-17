@@ -11,7 +11,6 @@ public class Sensor{
         int[] a = getData();
         Arrays.sort(a);
         double median;
-        System.out.println(Arrays.toString(a));
         if (a.length % 2 == 1) {
             return ((double)a[a.length/2] + (double)a[a.length/2 - 1]) / 2.0; 
         } else {

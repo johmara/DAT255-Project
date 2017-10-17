@@ -13,19 +13,19 @@ import java.io.IOException;
 public class ConvertImage extends JFrame {
 
     private ImagePanel ip;
-    private ImagePanel ip2;
+    //private ImagePanel ip2;
 
     public ConvertImage() {
         super("Pi Image Preview");
 
         ip = new ImagePanel();
-        ip2 = new ImagePanel();
+        //ip2 = new ImagePanel();
         getContentPane().add(ip);
-        getContentPane().add(ip2);
+        //getContentPane().add(ip2);
 
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(1000, 500);
+        setSize(500, 500);
         setLocationRelativeTo(null);
         setLayout(new GridLayout());
 
@@ -60,8 +60,8 @@ public class ConvertImage extends JFrame {
                 sftpChannel = (ChannelSftp) channel;
                 while (true) {
                     BufferedImage image = ImageIO.read(sftpChannel.get("Pictures/pi.jpg"));
-                    ip.setImage(getConverted(image));
-                    ip2.setImage(image);
+                    ip.setImages(image, getConverted(image));
+                    //ip2.setImage(image);
                 }
             } catch (IOException | JSchException | SftpException e) {
                 e.printStackTrace();
@@ -161,7 +161,7 @@ public class ConvertImage extends JFrame {
         boolean hasAlphaChannel = in.getAlphaRaster() != null;
         int pixelLength = hasAlphaChannel ? 4: 3;
         int[][] result = new int[height][width];
-        BufferedImage out = new BufferedImage(result[0].length, result.length, in.getType());
+        BufferedImage out = new BufferedImage(result[0].length, result.length, BufferedImage.TYPE_INT_ARGB);
         for (int pixel = 0, row = 0, col = 0; pixel < data.length; pixel += pixelLength) {
             int c = 0;
             int blue = (((int) data[pixel + (hasAlphaChannel ? 1: 0)] & 0xff));
@@ -170,10 +170,11 @@ public class ConvertImage extends JFrame {
 
             //Change these values to pick what to see
             //START CHANGE THESE
+            int alpha = 0xFF;
             if (red >= 90 && blue <= 50 && green <= 50)
-                c = 0xFF0000;//blue | ((green << 8) | (red << 16));
+                c = 0xFF0000 | (alpha << 24);//blue | ((green << 8) | (red << 16));
             else
-                c = 0x000000;
+                c = 0x00000000;
             //This get the original colors of the pixel
             //c = blue | ((green << 8) | (red << 16));
             //STOP CHANGE THESE

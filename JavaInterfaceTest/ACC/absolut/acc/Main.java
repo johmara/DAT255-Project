@@ -10,10 +10,12 @@ public class Main {
 
     public static void main(String args[]) throws IOException {
         ACC acc = new ACC();
-        GetPixelColor pixelColor = new GetPixelColor();
         Thread accThread = new Thread(acc);
         accThread.start();
-        pixelColor.start();
+        if (args.length > 0 && "all".equals(args[0])) {
+            GetPixelColor pixelColor = new GetPixelColor();
+            pixelColor.start();
+        }
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
             @Override
             public void run() {

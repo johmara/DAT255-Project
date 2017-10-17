@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 public class ImagePanel extends JPanel {
 
     private BufferedImage image = null;
+    private BufferedImage image2 = null;
     private AffineTransform at;
 
     public ImagePanel() {
@@ -22,8 +23,17 @@ public class ImagePanel extends JPanel {
         repaint();
     }
 
+    public synchronized void setImages(BufferedImage image, BufferedImage image2) {
+        this.image = image;
+        this.image2 = image2;
+        repaint();
+    }
+
     public synchronized BufferedImage getImage() {
         return image;
+    }
+    public synchronized BufferedImage getImage2() {
+        return image2;
     }
 
     @Override
@@ -31,6 +41,9 @@ public class ImagePanel extends JPanel {
         super.paint(g);
         if (getImage() != null) {
             ((Graphics2D)g).drawImage(getImage(), at, this); // see javadoc for more info on the parameters
+        }
+        if (getImage2() != null) {
+            ((Graphics2D)g).drawImage(getImage2(), at, this); // see javadoc for more info on the parameters
         }
     }
 
