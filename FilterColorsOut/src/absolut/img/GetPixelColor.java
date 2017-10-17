@@ -55,9 +55,9 @@ public class GetPixelColor extends Thread {
         }));
     }
     private void doFunction() throws InterruptedException {
-        can.sendMotorSpeed((byte) stop);    //testing values
+        can.sendMotorSpeed((byte) stop);    //First send to engingen
         Thread.sleep(2000);
-        can.sendMotorSpeed((byte) speed); //testing values
+        can.sendMotorSpeed((byte) speed); //Start the speed
         while(true){
             scanPicture();
         }
@@ -113,10 +113,14 @@ public class GetPixelColor extends Thread {
             int pixelLength = alpha ? 4: 3;
             for (int pixel = 0, row = 0, col = 0; pixel < pixels.length; pixel += pixelLength) {
                 int red = ((int)pixels[pixel + (alpha ? 3: 2)] & 0xff);
-                if (red > 200 && col < (width / 2))
-                    redCounterLeft++;
-                else if (red > 200 && col > (width / 2))
-                    redCounterRight++;
+                int blue = ((int)pixels[pixel + (alpha ? 1: 0)] & 0xff);
+                int green = ((int)pixels[pixel + (alpha ? 2: 1)] & 0xff);
+                if (red >= 110 && blue <= 50 && green <= 50) {
+                    if ( col < (width / 2))
+                        redCounterLeft++;
+                    else
+                        redCounterRight++;
+                }
                 col++;
                 if (col == width) {
                     col = 0;
@@ -126,34 +130,42 @@ public class GetPixelColor extends Thread {
             System.out.println("Image process: " + (System.currentTimeMillis() - time) + "ms");
             //System.out.println(" right: " + redCounterRight + " left: " + redCounterLeft);
             //if (redCounterRight > 0) {
-            kvot = ((float)redCounterLeft / (float)redCounterRight);
-            if (kvot > 0.9 && kvot < 1.1) {
-                steering = (byte) 0;
-                //System.out.println("Drive straight LeftCounter: " + redCounterLeft + "  Right:   " + redCounterRight + " kvot: " + kvot);
-           /* if (Math.abs(redCounterLeft - redCounterRight) < 4000)
-                System.out.println("Drive straight " + redCounterLeft + "     " + redCounterRight);
-            else if(redCounterLeft > redCounterRight)
-                System.out.println("Turn left " + redCounterLeft + " > " + redCounterRight );*/
-            }else if (redCounterLeft * 0.6 > redCounterRight) {
-                steering = (byte) -70;
-            }else if(redCounterLeft * 0.7 > redCounterRight) {
-                steering = (byte)-60;
-            }else if(redCounterLeft * 0.8 > redCounterRight) {
-                steering = (byte)-30;
-            }else if(redCounterLeft * 0.9 > redCounterRight) {
-                steering = (byte)-10;
-            }else if(redCounterRight * 0.6 > redCounterLeft) {
-                steering = (byte)70;
-            }else if(redCounterRight * 0.7 > redCounterLeft) {
-                steering = (byte)60;
-            }else if(redCounterRight * 0.8 > redCounterLeft) {
-                steering = (byte)30;
-            }else if(redCounterRight * 0.9 > redCounterLeft) {
-                steering = (byte)10;
+            if(redCounterLeft == 0 && redCounterRight == 0) {
+                try {
+                    can.sendSteering((byte) 0);
+                    System.out.println("inget rött hittat nånstans");
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+            }else {
+                kvot = ((float) redCounterLeft / (float) redCounterRight);
+
+                if (kvot > 0.9 && kvot < 1.1) {
+                    steering = (byte) 0;
+                } else if (redCounterLeft * 0.1 > redCounterRight) {
+                    steering = (byte) -70;
+                } else if (redCounterLeft * 0.4 > redCounterRight) {
+                    steering = (byte) -60;
+                } else if (redCounterLeft * 0.7 > redCounterRight) {
+                    steering = (byte) -30;
+                } else if (redCounterLeft * 0.9 > redCounterRight) {
+                    steering = (byte) -10;
+                } else if (redCounterRight * 0.1 > redCounterLeft) {
+                    steering = (byte) 70;
+                } else if (redCounterRight * 0.4 > redCounterLeft) {
+                    steering = (byte) 60;
+                } else if (redCounterRight * 0.7 > redCounterLeft) {
+                    steering = (byte) 30;
+                } else if (redCounterRight * 0.9 > redCounterLeft) {
+                    steering = (byte) 10;
+                } else
+                    steering = (byte) 0;
             }
-            System.out.println("Turn " + (steering < 0 ? "left ": steering == 0 ? "straight ": "right ")  + steering + " " +
-                    redCounterRight + (steering < 0 ? " < ": steering == 0 ? " = ": " > ") + redCounterLeft);
-            can.sendSteering((byte) steering);
+                System.out.println("Turn " + (steering < 0 ? "left " : steering == 0 ? "straight " : "right ") + steering + " " +
+                        redCounterRight + (steering < 0 ? " < " : steering == 0 ? " = " : " > ") + redCounterLeft +
+                        "kvot: " + kvot);
+                can.sendSteering((byte) steering);
+
 
             //else System.out.println("Turn right " + redCounterRight + " > " + redCounterLeft);
         } catch (IOException e) {
