@@ -5,10 +5,11 @@ public class Regulator {
     private Sensor sensor;
     private int preferredDistance;
     //private int sensorValue;
-    private double kp;
-    private double ki;
-    private double kd;
-    private double dt;
+    private double Kp;
+    private double Ki;
+    private double Kd;
+    private double Dt;
+    private double integral;
     private double lastError;
 
     /*Hugos kod*/
@@ -33,11 +34,13 @@ public class Regulator {
 
     private void init(){
         preferredDistance = 40;
-        kp = 0.85;
-        ki = 0.00001;
-        kd = 0.00001;
-        dt = 100;
+        Kp = 0.85;
+        Ki = 0.001;
+        Kd = 0.001;
+        Dt = 100;
+        integral = 0;
         lastError = 0;
+
         sensor = new Sensor();
 
         /*Hugos kod*/
@@ -55,33 +58,42 @@ public class Regulator {
     }
 
 
-    public int calcNewSpeed(){
+    public int calcNewSpeed() {
 
         double sensorValue = sensor.getDistance();
         double error = sensorValue - preferredDistance;
         double controlSignal;
-        double integral = 0;
+
         double derivate = 0;
 
-        integral = integral + (error * dt);
-        derivate = (error - lastError) / dt;
+        integral = integral + (error * Dt);
+        derivate = (error - lastError) / Dt;
 
-        controlSignal = kp * error + (ki * integral) + (kd * derivate);
+        integral = integral > 10 ? 10 : integral;
+        integral = integral < -4 ? -4 : integral;
+
+        System.out.println("Intergral: " + integral);
+
+        controlSignal = Kp * error + (Ki * integral) + (Kd * derivate);
 
         controlSignal = clamp(Math.round(controlSignal), 0, 100);
 
-        if(controlSignal > 20){
-            controlSignal = 20;
+        if(controlSignal > 40){
+            controlSignal = 40;
         }
-        if(controlSignal < -20){
-            controlSignal = -20;
+        if(controlSignal < -40){
+            controlSignal = -40;
         }
 
 
         System.out.println(controlSignal);
 
         lastError = error;
-
+        try {
+            Thread.sleep((long)Dt);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return (int) Math.round(controlSignal);
 
         /*Hugos kod*/

@@ -29,9 +29,11 @@ public class ACC implements Runnable, IMessageReceiver {
         int newControlSignal = 0;
         try {
             can.sendSteering((byte) 10);
+            can.sendMotorSpeed((byte) 0);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         while (true) {
             try {
                 //dist = sensor.getDistance();
