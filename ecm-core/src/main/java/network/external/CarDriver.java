@@ -147,7 +147,12 @@ public class CarDriver implements Runnable {
 						if (str.charAt(0) == 'S') {
 							pwmMessage = new PWMMessage(1, incomingBytes);
 						} else if (str.charAt(0) == 'A'){
-							sendMessage(str);
+							try {
+								sendMessage(str);
+							} catch (Exception e) {
+								setComp();
+								sendMessage(str);
+							}
 						} else {
 							byte[] data = interpretWirelessino(str);
 							pwmMessage = new PWMMessage(pwmEcuId, data);

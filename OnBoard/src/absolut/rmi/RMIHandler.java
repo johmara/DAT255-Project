@@ -55,7 +55,6 @@ public class RMIHandler implements IMessageHandler {
 
     @Override
     public void messageTask(String message) throws RemoteException {
-        System.out.println(message);
         for (IMessageReceiver receiver: receivers)
             receiver.messageReceived(message);
     }
