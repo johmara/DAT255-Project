@@ -89,16 +89,16 @@ public class PadView extends SurfaceView implements Callback, Runnable {
 		p.setAntiAlias(true);
 
 		pRed = new Paint();
-		pRed.setColor(Color.GREEN);
+		pRed.setColor(Color.DKGRAY);
 		pRed.setAntiAlias(true);
 
 		pBlue = new Paint();
 		pBlue.setColor(Color.BLUE);
 		pBlue.setAntiAlias(true);
 
-		pYellow = new Paint();
-		pYellow.setColor(Color.YELLOW);
-		pYellow.setAntiAlias(true);
+		//pYellow = new Paint();
+		//pYellow.setColor(Color.DKGRA);
+		//pYellow.setAntiAlias(true);
 
 		pControls = new Paint();
 		pControls.setColor(Color.argb(220, 100, 180, 180));
@@ -108,25 +108,28 @@ public class PadView extends SurfaceView implements Callback, Runnable {
 
 	public void onDraw(Canvas canvas) {
 		try {
+
 			canvas.drawColor(Color.DKGRAY);
+			canvas.drawText("steering" ,screen.centerX() + 180, (getHeight() / 2) - 100, p);
+			canvas.drawText("speed" ,(screen.centerX() / 2) - 65, (getHeight()) - 315, p);
 			if (Main.socket == null) {
 				canvas.drawCircle(getWidth() / 2, getHeight() / 8, balls[0]
 						.getRect().width() / 2, pRed);
 				canvas.drawText(
 						getContext().getString(R.string.title_not_connected),
-						screen.centerX(), (getHeight() / 8) + textSize * 2, p);
+						screen.centerX(), (getHeight() - 300) + textSize * 2, p);
 			} else if (Main.socket != null) {
 				canvas.drawCircle(screen.exactCenterX(), screen.height() / 8,
 						balls[0].getRect().width() / 2, pBlue);
 				canvas.drawText(getContext()
 								.getString(R.string.title_connected), screen.centerX(),
-						(getHeight() / 8) + textSize * 2, p);
+						(getHeight() / 2) + textSize * 2, p);
 			} else {
 				canvas.drawCircle(getWidth() / 2, getHeight() / 8, balls[0]
 						.getRect().width() / 2, pRed);
 				canvas.drawText(
 						getContext().getString(R.string.title_not_connected),
-						screen.centerX(), (getHeight() / 8) + textSize * 2, p);
+						screen.centerX(), (getHeight() - 300) + textSize * 2, p);
 			}
 			canvas.drawRect(bar1, p);
 			canvas.drawRect(bar2, p);
@@ -137,14 +140,13 @@ public class PadView extends SurfaceView implements Callback, Runnable {
 			canvas.drawText("CC", 50, 100, p);
 
 			paintItACC(canvas);
-			canvas.drawText("ACC", 100, 200, p);
-
+			canvas.drawText("ACC", getWidth() - (barACCON.width()/2), (barACCON.width()/2), p);
 			//canvas.drawText("ACC", 100, 200, p);
 			// canvas.drawCircle(balls[0].getRect().centerX(),
 			// balls[0].getRect().centerY(), balls[0].getRect().width() / 2,
 			// pControls);
 			// canvas.drawRect(balls[1].getRect(),pControls);
-			canvas.drawCircle(balls[1].getRect().centerX(), balls[1].getRect()
+			 	 canvas.drawCircle(balls[1].getRect().centerX(), balls[1].getRect()
 					.centerY(), balls[1].getRect().width() / 2, pControls);
 
 
@@ -153,8 +155,8 @@ public class PadView extends SurfaceView implements Callback, Runnable {
 
 
 			// Arndt: this will become a signalling button
-			canvas.drawCircle(getWidth() / 4, getHeight() / 8, balls[0]
-					.getRect().width(), pYellow);
+			//canvas.drawCircle(getWidth() / 4, getHeight() / 8, balls[0]
+			//		.getRect().width(), pYellow);
 
 
 			drawText(canvas, p);
@@ -174,7 +176,7 @@ public class PadView extends SurfaceView implements Callback, Runnable {
 		canvas.drawText(canTextL, balls[0].getRect().centerX(),
 				7 * getHeight() / 8, paint);
 		canvas.drawText(canTextR, balls[1].getRect().centerX(),
-				7 * getHeight() / 8, paint);
+				7 * getHeight() / 12, paint);
 	}
 
 	public Bitmap resizeImage(Context ctx, int resId, int w, int h) {
@@ -229,6 +231,7 @@ public class PadView extends SurfaceView implements Callback, Runnable {
 			}
 		}
 	}
+
 	public void paintIt(Canvas canvas){
 		if(isCCActive)
 			canvas.drawRect(bar4, pRED);
@@ -247,26 +250,27 @@ public class PadView extends SurfaceView implements Callback, Runnable {
 
 
 	public boolean ccActive() {
-		if(isCCActive)
+		if(isCCActive) {
 			bar3.set(bar3);
+		}
 
-		else
+		else if(!isCCActive){
 			bar3.set(bar4);
-		return isCCActive = !isCCActive;
+		}
+		return isCCActive =! isCCActive;
 	}
 
 
 	public boolean accActive() {
+		Log.d("ACC", " ");
 		if(isACCActive) {
 			barACC.set(barACCON);
-			Log.d("Turn", " ON");
 		}
 
 		else {
 			barACC.set(barACCOFF);
-			Log.d("Turn", " OFF");
 		}
-		return isACCActive = !isACCActive;
+		return isACCActive =! isACCActive;
 	}
 
 	@SuppressLint("ClickableViewAccessibility")
@@ -282,11 +286,13 @@ public class PadView extends SurfaceView implements Callback, Runnable {
 
 			case MotionEvent.ACTION_DOWN:
 			case MotionEvent.ACTION_POINTER_DOWN:
-					if (bar3.contains(xValue, yValue) /*&& Main.socket != null*/)
+					if (bar3.contains(xValue, yValue) /*&& Main.socket != null*/) {
 						ccActive();
+					}
 
 					if(barACC.contains(xValue, yValue) /*&& Main.socket != null*/){
 						accActive();
+
 						try {
 							if(!isACCActive){
 								Log.d("SEND", "ACC");
@@ -555,9 +561,9 @@ public class PadView extends SurfaceView implements Callback, Runnable {
 		bar2 = new Rect(3 * left, h - w / 2, 5 * left, h + w / 2);
 		bar3 = new Rect(0, 0, 100, 100);
 		bar4 = new Rect(0, 0, 100, 100);
-		barACC = new Rect(0, 100, 200, 200);
-		barACCON = new Rect(0, 100, 200, 200);
-		barACCOFF = new Rect(0, 100, 200, 200);
+		barACC = new Rect(880, 0, 1080, 100);
+		barACCON = new Rect(880, 0, 1080, 100);
+		barACCOFF = new Rect(880, 0, 1080, 100);
 
 		balls[0] = new Ball(left - w, top - 5 - w + (bottom - top) / 2, right + w,
 				top + 5 + w + (bottom - top) / 2, Ball.LEFT_BAR);
