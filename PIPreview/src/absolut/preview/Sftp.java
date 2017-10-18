@@ -1,4 +1,4 @@
-package absolut.conv;
+package absolut.preview;
 
 import com.jcraft.jsch.*;
 import java.awt.*;
@@ -21,7 +21,7 @@ public class Sftp{
         }
 
         String passwd = "pi";
-        JTextField passwordField = (JTextField)new JPasswordField(20);
+        //JTextField passwordField = (JTextField)new JPasswordField(20);
 
         @Override
         public String getPassphrase(){
@@ -80,10 +80,9 @@ public class Sftp{
                 gbc.fill = GridBagConstraints.HORIZONTAL;
                 gbc.weighty = 1;
                 if(echo[i]){
-                  texts[i] = new JTextField(20);
-                }
-                else{
-                  texts[i] = new JPasswordField(20);
+                    texts[i] = new JTextField(20);
+                } else {
+                    texts[i] = new JPasswordField(20);
                 }
                 panel.add(texts[i], gbc);
                 gbc.gridy++;
@@ -95,8 +94,8 @@ public class Sftp{
                   response[i] = texts[i].getText();
                 }
                 return response;
-            } else{
-                return null;  // cancel
+            } else {
+                return null; // Library requires a null if canceled
             }
         }
     }

@@ -1,4 +1,4 @@
-package absolut.conv;
+package absolut.preview;
 
 import com.jcraft.jsch.*;
 
@@ -10,18 +10,15 @@ import java.awt.image.DataBufferByte;
 import java.io.File;
 import java.io.IOException;
 
-public class ConvertImage extends JFrame {
+public class ImagePreviewer extends JFrame {
 
     private ImagePanel ip;
-    //private ImagePanel ip2;
 
-    public ConvertImage() {
+    public ImagePreviewer() {
         super("Pi Image Preview");
 
         ip = new ImagePanel();
-        //ip2 = new ImagePanel();
         getContentPane().add(ip);
-        //getContentPane().add(ip2);
 
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -61,7 +58,6 @@ public class ConvertImage extends JFrame {
                 while (true) {
                     BufferedImage image = ImageIO.read(sftpChannel.get("Pictures/pi.jpg"));
                     ip.setImages(image, getConverted(image));
-                    //ip2.setImage(image);
                 }
             } catch (IOException | JSchException | SftpException e) {
                 e.printStackTrace();
@@ -75,84 +71,7 @@ public class ConvertImage extends JFrame {
     }
 
     public static void main(String[] args) {
-        new ConvertImage();
-
-        /*BufferedImage img = null;
-
-        try {
-            img = ImageIO.read(new File(args[0]));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (img != null) {
-            byte[] data = ((DataBufferByte) img.getRaster().getDataBuffer()).getData();
-            int width = img.getWidth();
-            int height = img.getHeight();
-            boolean hasAlphaChannel = img.getAlphaRaster() != null;
-            int pixelLength = hasAlphaChannel ? 4: 3;
-            int[][] result = new int[height][width];
-            for (int pixel = 0, row = 0, col = 0; pixel < data.length; pixel += pixelLength) {
-                //int argb = 0;
-                //if (hasAlphaChannel)
-                //    argb += (((int) data[pixel] & 0xff) << 24); // alpha
-                //argb += ((int) data[pixel + (hasAlphaChannel ? 1: 0)] & 0xff); // blue
-                //argb += (((int) data[pixel + (hasAlphaChannel ? 2: 1)] & 0xff) << 8); // green
-                //argb += (((int) data[pixel + (hasAlphaChannel ? 3: 2)] & 0xff) << 16); // red
-                int red = (((int) data[pixel + (hasAlphaChannel ? 3: 2)] & 0xff)); // red
-                if (red < 200)
-                    red = 0x00;
-                else
-                    red = 0xFF0000;
-                result[row][col] = red;
-                //result[row][col] = argb;
-                col++;
-                if (col == width) {
-                    col = 0;
-                    row++;
-                }
-            }*/
-            /*int[][] result = new int[height][width];
-
-            for (int row = 0; row < height; row++) {
-                for (int col = 0; col < width; col++) {
-                    int c = img.getRGB(col, row);
-                    int r = (c >> 16) & 0xFF;
-                    if (r > 200) {
-                        c &= ~(0xFF);
-                        c &= ~(0xFF << 8);
-                        c |= (0xFF << 16);
-                    } else {
-                        c &= ~(0xFF);
-                        c &= ~(0xFF << 8);
-                        c &= ~(0xFF << 16);
-                    }
-
-                    result[row][col] = c;
-                }
-            }*/
-
-            /*BufferedImage image = new BufferedImage(result[0].length, result.length, img.getType());
-
-            for (int i = 0; i < result.length; i++) {
-                for (int j = 0; j < result[i].length; j++) {
-                    //int[] pixel = new int[3];
-                    //pixel[0] = result[i][j];
-                    //pixel[1] = result[i][j];
-                    //pixel[2] = result[i][j];
-                    //raster.setPixel(i, j, pixel);
-                    image.setRGB(j, i, result[i][j]);
-                }
-            }
-            File out = new File(args[0].substring(0, args[0].lastIndexOf('.')) + "-conv.jpg");
-            try {
-                ImageIO.write(image, "JPG", out);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }*/
-
-
-
+        new ImagePreviewer();
     }
 
     private BufferedImage getConverted(BufferedImage in) {
@@ -187,16 +106,6 @@ public class ConvertImage extends JFrame {
             }
         }
 
-        /*for (int i = 0; i < result.length; i++) {
-            for (int j = 0; j < result[i].length; j++) {
-                //int[] pixel = new int[3];
-                //pixel[0] = result[i][j];
-                //pixel[1] = result[i][j];
-                //pixel[2] = result[i][j];
-                //raster.setPixel(i, j, pixel);
-                out.setRGB(j, i, result[i][j]);
-            }
-        }*/
         return out;
     }
 

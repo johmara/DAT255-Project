@@ -1,4 +1,4 @@
-package absolut.conv;
+package absolut.preview;
 
 import javax.swing.*;
 import java.awt.*;

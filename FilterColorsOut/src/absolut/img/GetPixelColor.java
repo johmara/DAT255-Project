@@ -20,13 +20,11 @@ public class GetPixelColor extends Thread {
      * @throws IOException
      */
 
-    public static int ZERO_STEERING = 10;
+    public static final int ZERO_STEERING = 10;
 
     private CanReader can;
     private RPiCamera piCamera;
     private byte steering = 0;
-    private byte speed = 20;
-    private byte stop = 0;
     public GetPixelColor(){
         try {
             piCamera = new RPiCamera("/home/pi/Pictures");
@@ -61,31 +59,6 @@ public class GetPixelColor extends Thread {
         }
     }
 
-    public  String findURL() {
-        URL url = null;
-        String urlAdress = "ftp://gustaf:absolut@chassit.xyz/home/gustaf/moped/position/Optipos/Connected/";
-        try {
-            url = new URL(urlAdress);
-            //folder = new File (url.toURI());
-            URLConnection urlc = url.openConnection();
-            BufferedReader in = new BufferedReader(new InputStreamReader(urlc.getInputStream()));
-
-            String inputLine;
-            String pictureName;
-            while((inputLine = in.readLine()) != null) {
-                String str = inputLine;
-                String[] parts = str.split(" ");
-                pictureName = parts[22];
-                //scanPicture(new URL(urlAdress+pictureName));
-            }
-            in.close();
-
-        }catch (Exception e) {
-            e.printStackTrace();
-        }return "left.jpg";
-    }
-
-
     public  void scanPicture() {
         try {
             //read image file
@@ -94,7 +67,6 @@ public class GetPixelColor extends Thread {
             BufferedImage image = ImageIO.read(piCamera.takeStill("pi.jpg"));
             final byte[] pixels = ((DataBufferByte)image.getRaster().getDataBuffer()).getData();
             final int width = image.getWidth();
-            final int height = image.getHeight();
 
             float kvot = 0;
             int redCounterLeft = 0;
@@ -178,7 +150,7 @@ public class GetPixelColor extends Thread {
         }
     }
 
-    private static double clamp(double value, double min, double max) {
+    public static double clamp(double value, double min, double max) {
         if (value < min) return min;
         if (value > max) return max;
         return value;

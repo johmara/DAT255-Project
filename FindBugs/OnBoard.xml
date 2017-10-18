@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="3.0.1" sequence="0" timestamp="1508319332000" analysisTimestamp="1508330051650" release="">
+  <Project projectName="OnBoard">
+    <Jar>/Users/gustaf/Dev/DAT255-Project/Dist/OnBoard.zip</Jar>
+    <AuxClasspathEntry>/Users/gustaf/Dev/DAT255-Project/libs/jna-4.5.0.jar</AuxClasspathEntry>
+    <SrcDir>/Users/gustaf/Dev/DAT255-Project/OnBoard/src</SrcDir>
+    <WrkDir>/Users/gustaf/Dev/DAT255-Project/FindBugs</WrkDir>
+  </Project>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Wed, 18 Oct 2017 11:35:32 +0200" total_classes="12" referenced_classes="59" total_bugs="0" total_size="337" num_packages="2" java_version="1.8.0_131" vm_version="25.131-b11" cpu_seconds="2.92" clock_seconds="3.10" peak_mbytes="384.57" alloc_mbytes="3641.00" gc_seconds="0.01">
+    <PackageStats package="absolut.can" total_bugs="0" total_types="7" total_size="260">
+      <ClassStats class="absolut.can.CanConfigParser" sourceFile="CanConfigParser.java" interface="false" size="53" bugs="0"/>
+      <ClassStats class="absolut.can.CanManager" sourceFile="CanManager.java" interface="false" size="81" bugs="0"/>
+      <ClassStats class="absolut.can.CanManager$CanTPReceiver" sourceFile="CanManager.java" interface="false" size="21" bugs="0"/>
+      <ClassStats class="absolut.can.CanManager$ClassicalCanReceiver" sourceFile="CanManager.java" interface="false" size="19" bugs="0"/>
+      <ClassStats class="absolut.can.CanManager$ICanReceiver" sourceFile="CanManager.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="absolut.can.CanReader" sourceFile="CanReader.java" interface="false" size="75" bugs="0"/>
+      <ClassStats class="absolut.can.JavaCanLibrary" sourceFile="JavaCanLibrary.java" interface="true" size="9" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="absolut.rmi" total_bugs="0" total_types="5" total_size="77">
+      <ClassStats class="absolut.rmi.Client" sourceFile="Client.java" interface="false" size="36" bugs="0"/>
+      <ClassStats class="absolut.rmi.IMessageHandler" sourceFile="IMessageHandler.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="absolut.rmi.IMessageReceiver" sourceFile="IMessageReceiver.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="absolut.rmi.RMIHandler" sourceFile="RMIHandler.java" interface="false" size="28" bugs="0"/>
+      <ClassStats class="absolut.rmi.RMIHandler$1" sourceFile="RMIHandler.java" interface="false" size="9" bugs="0"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="101" invocations="585" avgMicrosecondsPerInvocation="174" maxMicrosecondsPerInvocation="3442" standardDeviationMircosecondsPerInvocation="390"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="37" invocations="59" avgMicrosecondsPerInvocation="632" maxMicrosecondsPerInvocation="12582" standardDeviationMircosecondsPerInvocation="1730"/>
+      <ClassProfile name="edu.umd.cs.findbugs.FindBugs2" totalMilliseconds="35" invocations="2" avgMicrosecondsPerInvocation="17697" maxMicrosecondsPerInvocation="25730" standardDeviationMircosecondsPerInvocation="8033"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="22" invocations="243" avgMicrosecondsPerInvocation="91" maxMicrosecondsPerInvocation="939" standardDeviationMircosecondsPerInvocation="129"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="21" invocations="59" avgMicrosecondsPerInvocation="359" maxMicrosecondsPerInvocation="3199" standardDeviationMircosecondsPerInvocation="656"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="17" invocations="45" avgMicrosecondsPerInvocation="386" maxMicrosecondsPerInvocation="4989" standardDeviationMircosecondsPerInvocation="875"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="15" invocations="586" avgMicrosecondsPerInvocation="25" maxMicrosecondsPerInvocation="778" standardDeviationMircosecondsPerInvocation="51"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="14" invocations="46" avgMicrosecondsPerInvocation="325" maxMicrosecondsPerInvocation="2166" standardDeviationMircosecondsPerInvocation="559"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="11" invocations="41" avgMicrosecondsPerInvocation="291" maxMicrosecondsPerInvocation="2885" standardDeviationMircosecondsPerInvocation="552"/>
+      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="11" invocations="552" avgMicrosecondsPerInvocation="21" maxMicrosecondsPerInvocation="511" standardDeviationMircosecondsPerInvocation="43"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History></History>
+</BugCollection>

@@ -1,1 +1,3 @@
-This is a folder for plugins.
+# Plugins for old system (abandoned)
+
+These are not used anymore

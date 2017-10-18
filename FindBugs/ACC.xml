@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="3.0.1" sequence="0" timestamp="1508319363000" analysisTimestamp="1508330025966" release="">
+  <Project projectName="ACC">
+    <Jar>/Users/gustaf/Dev/DAT255-Project/Dist/ACC.zip</Jar>
+    <AuxClasspathEntry>/Users/gustaf/Dev/DAT255-Project/libs/jna-4.5.0.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/gustaf/Dev/DAT255-Project/Dist/FilterColorsOut.zip</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/gustaf/Dev/DAT255-Project/Dist/OnBoard.zip</AuxClasspathEntry>
+    <SrcDir>/Users/gustaf/Dev/DAT255-Project/JavaInterfaceTest/ACC</SrcDir>
+    <WrkDir>/Users/gustaf/Dev/DAT255-Project/FindBugs</WrkDir>
+  </Project>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Wed, 18 Oct 2017 11:36:03 +0200" total_classes="5" referenced_classes="27" total_bugs="0" total_size="115" num_packages="1" java_version="1.8.0_131" vm_version="25.131-b11" cpu_seconds="1.23" clock_seconds="2.59" peak_mbytes="380.47" alloc_mbytes="3641.00" gc_seconds="0.01">
+    <PackageStats package="absolut.acc" total_bugs="0" total_types="5" total_size="115">
+      <ClassStats class="absolut.acc.ACC" sourceFile="ACC.java" interface="false" size="29" bugs="0"/>
+      <ClassStats class="absolut.acc.Main" sourceFile="Main.java" interface="false" size="12" bugs="0"/>
+      <ClassStats class="absolut.acc.Main$1" sourceFile="Main.java" interface="false" size="9" bugs="0"/>
+      <ClassStats class="absolut.acc.Regulator" sourceFile="Regulator.java" interface="false" size="47" bugs="0"/>
+      <ClassStats class="absolut.acc.Sensor" sourceFile="Sensor.java" interface="false" size="18" bugs="0"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="82" invocations="425" avgMicrosecondsPerInvocation="193" maxMicrosecondsPerInvocation="8638" standardDeviationMircosecondsPerInvocation="552"/>
+      <ClassProfile name="edu.umd.cs.findbugs.FindBugs2" totalMilliseconds="29" invocations="2" avgMicrosecondsPerInvocation="14714" maxMicrosecondsPerInvocation="22430" standardDeviationMircosecondsPerInvocation="7716"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="12" invocations="426" avgMicrosecondsPerInvocation="28" maxMicrosecondsPerInvocation="975" standardDeviationMircosecondsPerInvocation="66"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History></History>
+</BugCollection>
