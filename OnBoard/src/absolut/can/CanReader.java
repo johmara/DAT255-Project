@@ -72,7 +72,7 @@ public class CanReader implements Runnable {
         sendMotorSteer(motordata, steer);
     }
 
-    public void sendEmergencyShutdown() throws InterruptedException {
+    public synchronized void sendEmergencyShutdown() throws InterruptedException {
         sendData = new byte[] {0, 0};
         canManager.sendMessage(sendData);
     }

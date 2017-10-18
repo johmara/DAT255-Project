@@ -7,8 +7,8 @@ import java.awt.image.BufferedImage;
 
 public class ImagePanel extends JPanel {
 
-    private BufferedImage image = null;
-    private BufferedImage image2 = null;
+    private transient BufferedImage image = null;
+    private transient BufferedImage image2 = null;
     private AffineTransform at;
 
     public ImagePanel() {
@@ -39,11 +39,13 @@ public class ImagePanel extends JPanel {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        if (getImage() != null) {
-            ((Graphics2D)g).drawImage(getImage(), at, this); // see javadoc for more info on the parameters
-        }
-        if (getImage2() != null) {
-            ((Graphics2D)g).drawImage(getImage2(), at, this); // see javadoc for more info on the parameters
+        if (g instanceof Graphics2D) {
+            if (getImage() != null) {
+                ((Graphics2D) g).drawImage(getImage(), at, this); // see javadoc for more info on the parameters
+            }
+            if (getImage2() != null) {
+                ((Graphics2D) g).drawImage(getImage2(), at, this); // see javadoc for more info on the parameters
+            }
         }
     }
 
