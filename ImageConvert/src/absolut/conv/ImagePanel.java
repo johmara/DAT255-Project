@@ -13,9 +13,9 @@ public class ImagePanel extends JPanel {
 
     public ImagePanel() {
         at = new AffineTransform();
-        at.translate(250, 250);
+        at.translate(200, 125);
         at.rotate(Math.PI);
-        at.translate(-250, -250);
+        at.translate(-200, -125);
     }
 
     public synchronized void setImage(BufferedImage image) {

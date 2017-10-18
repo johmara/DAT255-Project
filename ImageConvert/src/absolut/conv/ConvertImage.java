@@ -25,7 +25,7 @@ public class ConvertImage extends JFrame {
 
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(500, 500);
+        setSize(400, 250);
         setLocationRelativeTo(null);
         setLayout(new GridLayout());
 
@@ -46,7 +46,7 @@ public class ConvertImage extends JFrame {
                     f.createNewFile();
                 }
                 jsch.setKnownHosts( knownHostsFilename );
-                String in = JOptionPane.showInputDialog("Ip of PI", "192.168.");
+                String in = JOptionPane.showInputDialog("Ip of PI", "192.168.43.49");
                 session = jsch.getSession( "pi", in);
                 {
                     UserInfo ui = new Sftp.MyUserInfo();

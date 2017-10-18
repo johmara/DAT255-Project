@@ -1,8 +1,6 @@
 package absolut.img;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
 import java.io.*;
 import java.net.URL;
@@ -12,6 +10,7 @@ import javax.imageio.ImageIO;
 import absolut.can.CanReader;
 import com.hopding.jrpicam.RPiCamera;
 import com.hopding.jrpicam.exceptions.FailedToRunRaspistillException;
+
 /* Läser av en bild och räknar ut hur mycket bilen ska svänga beroende på var det finns flest röda pixlar */
 
 public class GetPixelColor extends Thread {
@@ -20,6 +19,8 @@ public class GetPixelColor extends Thread {
      * @param args the command line arguments
      * @throws IOException
      */
+
+    public static int ZERO_STEERING = 10;
 
     private CanReader can;
     private RPiCamera piCamera;
@@ -30,6 +31,8 @@ public class GetPixelColor extends Thread {
         try {
             piCamera = new RPiCamera("/home/pi/Pictures");
             piCamera.setTimeout(10);
+            piCamera.setHeight(250);
+            piCamera.setWidth(400);
         } catch (FailedToRunRaspistillException e) {
             e.printStackTrace();
         }
@@ -121,8 +124,24 @@ public class GetPixelColor extends Thread {
             //if (redCounterRight > 0) {
             if(redCounterLeft == 0 && redCounterRight == 0) {
                 System.out.println("inget rött hittat nånstans");
-                steering = 0;
+                steering = (byte) ZERO_STEERING;
             }else {
+                // Alternative steering
+                /*
+                double r = redCounterRight / 25000D;
+                double l = redCounterLeft / 25000D;
+
+                if (r < 0 && l != 0)
+                    l = 1;
+                if (l == 0 && r != 0)
+                    r = 1;
+                double d = r - l;
+                double mD = remap(d, -1, 1, -100, 100);
+                mD = clamp(mD, -70, 70);
+                if ((r < 0.001 && l < 0.001) || mD > -1 && mD < 1)
+                    mD = ZERO_STEERING;
+
+                steering = (byte) Math.floor(mD);*/
                 kvot = ((float) redCounterLeft / (float) redCounterRight);
 
                 if (kvot > 0.9 && kvot < 1.1) {
@@ -149,16 +168,23 @@ public class GetPixelColor extends Thread {
 
             System.out.println("Turn " + (steering > 0 ? "left " : steering == 0 ? "straight " : "right ") + steering + " " +
                     redCounterRight + (steering > 0 ? " > " : steering == 0 ? " = " : " < ") + redCounterLeft +
-                    "kvot: " + kvot);
+                    " kvot: " + kvot);
             can.sendSteering(steering);
 
 
             //else System.out.println("Turn right " + redCounterRight + " > " + redCounterLeft);
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
-
-        } catch (InterruptedException ie){
-            ie.printStackTrace();
         }
+    }
+
+    private static double clamp(double value, double min, double max) {
+        if (value < min) return min;
+        if (value > max) return max;
+        return value;
+    }
+
+    public static double remap(double value, double low1, double high1, double low2, double high2) {
+        return low2 + (value - low1) * (high2 - low2) / (high1 - low1);
     }
 }
