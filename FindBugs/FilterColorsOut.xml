@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="3.0.1" sequence="0" timestamp="1508329855000" analysisTimestamp="1508329930778" release="">
+  <Project projectName="FilterColorsOut">
+    <Jar>/Users/gustaf/Dev/DAT255-Project/Dist/FilterColorsOut.zip</Jar>
+    <AuxClasspathEntry>/Users/gustaf/Dev/DAT255-Project/libs/jrpicam-1.1.1.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/gustaf/Dev/DAT255-Project/Dist/OnBoard.zip</AuxClasspathEntry>
+    <SrcDir>/Users/gustaf/Dev/DAT255-Project/FilterColorsOut/src</SrcDir>
+  </Project>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Wed, 18 Oct 2017 14:30:55 +0200" total_classes="2" referenced_classes="60" total_bugs="0" total_size="89" num_packages="1" java_version="1.8.0_131" vm_version="25.131-b11" cpu_seconds="7.40" clock_seconds="25.61" peak_mbytes="379.13" alloc_mbytes="3641.00" gc_seconds="0.01">
+    <PackageStats package="absolut.img" total_bugs="0" total_types="2" total_size="89">
+      <ClassStats class="absolut.img.GetPixelColor" sourceFile="GetPixelColor.java" interface="false" size="80" bugs="0"/>
+      <ClassStats class="absolut.img.GetPixelColor$1" sourceFile="GetPixelColor.java" interface="false" size="9" bugs="0"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="95" invocations="532" avgMicrosecondsPerInvocation="178" maxMicrosecondsPerInvocation="6722" standardDeviationMircosecondsPerInvocation="434"/>
+      <ClassProfile name="edu.umd.cs.findbugs.FindBugs2" totalMilliseconds="32" invocations="2" avgMicrosecondsPerInvocation="16393" maxMicrosecondsPerInvocation="23416" standardDeviationMircosecondsPerInvocation="7023"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="17" invocations="60" avgMicrosecondsPerInvocation="299" maxMicrosecondsPerInvocation="1774" standardDeviationMircosecondsPerInvocation="402"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="16" invocations="60" avgMicrosecondsPerInvocation="283" maxMicrosecondsPerInvocation="1780" standardDeviationMircosecondsPerInvocation="378"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="15" invocations="181" avgMicrosecondsPerInvocation="85" maxMicrosecondsPerInvocation="931" standardDeviationMircosecondsPerInvocation="101"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="11" invocations="536" avgMicrosecondsPerInvocation="22" maxMicrosecondsPerInvocation="127" standardDeviationMircosecondsPerInvocation="16"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History></History>
+</BugCollection>

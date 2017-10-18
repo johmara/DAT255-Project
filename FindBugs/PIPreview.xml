@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="3.0.1" sequence="0" timestamp="1508332339000" analysisTimestamp="1508332700653" release="">
+  <Project projectName="PIPreview">
+    <Jar>/Users/gustaf/Dev/DAT255-Project/Dist/PIPreview.zip</Jar>
+    <AuxClasspathEntry>/Users/gustaf/Dev/DAT255-Project/libs/jsch-0.1.54.jar</AuxClasspathEntry>
+    <SrcDir>/Users/gustaf/Dev/DAT255-Project/PIPreview/src</SrcDir>
+    <SuppressionFilter>
+      <And>
+        <Bug category="STYLE"/>
+        <Bug code="PZLA"/>
+        <Bug pattern="PZLA_PREFER_ZERO_LENGTH_ARRAYS"/>
+      </And>
+    </SuppressionFilter>
+  </Project>
+  <BugInstance type="PZLA_PREFER_ZERO_LENGTH_ARRAYS" priority="3" rank="20" abbrev="PZLA" category="STYLE">
+    <Class classname="absolut.preview.Sftp$MyUserInfo">
+      <SourceLine classname="absolut.preview.Sftp$MyUserInfo" sourcefile="Sftp.java" sourcepath="absolut/preview/Sftp.java"/>
+    </Class>
+    <Method classname="absolut.preview.Sftp$MyUserInfo" name="promptKeyboardInteractive" signature="(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;[Z)[Ljava/lang/String;" isStatic="false">
+      <SourceLine classname="absolut.preview.Sftp$MyUserInfo" start="61" end="99" startBytecode="0" endBytecode="614" sourcefile="Sftp.java" sourcepath="absolut/preview/Sftp.java"/>
+    </Method>
+    <SourceLine classname="absolut.preview.Sftp$MyUserInfo" start="99" end="99" startBytecode="331" endBytecode="331" sourcefile="Sftp.java" sourcepath="absolut/preview/Sftp.java"/>
+  </BugInstance>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Wed, 18 Oct 2017 15:12:19 +0200" total_classes="4" referenced_classes="344" total_bugs="1" total_size="159" num_packages="1" java_version="1.8.0_131" vm_version="25.131-b11" cpu_seconds="9.37" clock_seconds="27.35" peak_mbytes="716.31" alloc_mbytes="3641.00" gc_seconds="0.02" priority_3="1">
+    <PackageStats package="absolut.preview" total_bugs="1" total_types="4" total_size="159" priority_3="1">
+      <ClassStats class="absolut.preview.ImagePanel" sourceFile="ImagePanel.java" interface="false" size="34" bugs="0"/>
+      <ClassStats class="absolut.preview.ImagePreviewer" sourceFile="ImagePreviewer.java" interface="false" size="70" bugs="0"/>
+      <ClassStats class="absolut.preview.Sftp" sourceFile="Sftp.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="absolut.preview.Sftp$MyUserInfo" sourceFile="Sftp.java" interface="false" size="52" bugs="1" priority_3="1"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="280" invocations="1704" avgMicrosecondsPerInvocation="164" maxMicrosecondsPerInvocation="18450" standardDeviationMircosecondsPerInvocation="558"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="115" invocations="344" avgMicrosecondsPerInvocation="334" maxMicrosecondsPerInvocation="5976" standardDeviationMircosecondsPerInvocation="636"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="108" invocations="344" avgMicrosecondsPerInvocation="314" maxMicrosecondsPerInvocation="3795" standardDeviationMircosecondsPerInvocation="535"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="73" invocations="825" avgMicrosecondsPerInvocation="88" maxMicrosecondsPerInvocation="2346" standardDeviationMircosecondsPerInvocation="136"/>
+      <ClassProfile name="edu.umd.cs.findbugs.FindBugs2" totalMilliseconds="52" invocations="2" avgMicrosecondsPerInvocation="26397" maxMicrosecondsPerInvocation="29279" standardDeviationMircosecondsPerInvocation="2886"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="35" invocations="1708" avgMicrosecondsPerInvocation="20" maxMicrosecondsPerInvocation="344" standardDeviationMircosecondsPerInvocation="23"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="32" invocations="344" avgMicrosecondsPerInvocation="94" maxMicrosecondsPerInvocation="1306" standardDeviationMircosecondsPerInvocation="153"/>
+      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="29" invocations="1653" avgMicrosecondsPerInvocation="17" maxMicrosecondsPerInvocation="958" standardDeviationMircosecondsPerInvocation="39"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="27" invocations="413" avgMicrosecondsPerInvocation="65" maxMicrosecondsPerInvocation="778" standardDeviationMircosecondsPerInvocation="91"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History></History>
+</BugCollection>
