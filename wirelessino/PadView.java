@@ -23,7 +23,7 @@ import android.app.Activity;
 public class PadView extends SurfaceView implements Callback, Runnable {
 	private boolean run;
 	private SurfaceHolder sh;
-	private Paint p, pNew, pRed, pBlue, pYellow, pControls, pGREEN, pRED;
+	private Paint p, pRed, pBlue, pYellow, pControls, pGREEN, pRED, pACCOFF, pACCON;
 	public Ball balls[]   = new Ball[2];
 	private boolean isCCActive, isACCActive;
 	private int touchX[]  = new int[balls.length],
@@ -32,7 +32,7 @@ public class PadView extends SurfaceView implements Callback, Runnable {
 			origenX[] = new int[balls.length],
 			idMap[]   = new int[balls.length]; // pointerId depends on how many fingers are pressed and can exceed the number of balls. Thus, a mapping is needed.
 	private int textSize, w, h, lastSpeed;
-	public Rect screen, bar1, bar2, bar3, bar4, barACC, barACCOFF, notif;
+	public Rect screen, bar1, bar2, bar3, bar4, barACC, barACCOFF, barACCON, notif;
 	private Thread tDraw;
 	private Bitmap bluinoBMP;
 	public static final int UMBRAL_TACTIL = 70;
@@ -65,6 +65,21 @@ public class PadView extends SurfaceView implements Callback, Runnable {
 
 
 		// slut //
+		pACCOFF = new Paint();
+		pACCOFF.setColor(Color.RED);
+		pACCOFF.setAntiAlias(true);
+
+		pACCON = new Paint();
+		pACCON.setColor(Color.GREEN);
+		pACCON.setAntiAlias(true);
+
+
+
+
+
+
+
+
 		p = new Paint();
 		p.setColor(Color.WHITE);
 		p.setTextAlign(Align.CENTER);
@@ -72,15 +87,19 @@ public class PadView extends SurfaceView implements Callback, Runnable {
 				"fonts/KellySlab-Regular.ttf"));
 		p.setTextSize(textSize);
 		p.setAntiAlias(true);
+
 		pRed = new Paint();
 		pRed.setColor(Color.GREEN);
 		pRed.setAntiAlias(true);
+
 		pBlue = new Paint();
 		pBlue.setColor(Color.BLUE);
 		pBlue.setAntiAlias(true);
+
 		pYellow = new Paint();
 		pYellow.setColor(Color.YELLOW);
 		pYellow.setAntiAlias(true);
+
 		pControls = new Paint();
 		pControls.setColor(Color.argb(220, 100, 180, 180));
 		pControls.setAntiAlias(true);
@@ -111,12 +130,13 @@ public class PadView extends SurfaceView implements Callback, Runnable {
 			}
 			canvas.drawRect(bar1, p);
 			canvas.drawRect(bar2, p);
-			paintIt(canvas);
-
-
-			canvas.drawText("CC", 50, 100, p);
 			canvas.drawRect(balls[0].getRect(), pControls);
 
+
+			paintIt(canvas);
+			canvas.drawText("CC", 50, 100, p);
+
+			paintItACC(canvas);
 			canvas.drawText("ACC", 100, 200, p);
 
 			//canvas.drawText("ACC", 100, 200, p);
@@ -218,10 +238,11 @@ public class PadView extends SurfaceView implements Callback, Runnable {
 	}
 
 	public void paintItACC(Canvas canvas){
+
 		if(isACCActive)
-			canvas.drawRect(barACC, pRED);
+			canvas.drawRect(barACCOFF, pACCOFF);
 		else
-			canvas.drawRect(barACC, pGREEN);
+			canvas.drawRect(barACCON, pACCON);
 	}
 
 
@@ -236,11 +257,15 @@ public class PadView extends SurfaceView implements Callback, Runnable {
 
 
 	public boolean accActive() {
-		if(isACCActive)
-			barACC.set(bar3);
+		if(isACCActive) {
+			barACC.set(barACCON);
+			Log.d("Turn", " ON");
+		}
 
-		else
-			barACC.set(bar4);
+		else {
+			barACC.set(barACCOFF);
+			Log.d("Turn", " OFF");
+		}
 		return isACCActive = !isACCActive;
 	}
 
@@ -260,13 +285,32 @@ public class PadView extends SurfaceView implements Callback, Runnable {
 					if (bar3.contains(xValue, yValue) /*&& Main.socket != null*/)
 						ccActive();
 
-					if(barACC.contains(xValue, yValue) /*&& Main.socket != null*/)
+					if(barACC.contains(xValue, yValue) /*&& Main.socket != null*/){
 						accActive();
+						try {
+							if(!isACCActive){
+								Log.d("SEND", "ACC");
+								Thread.sleep(2);
+							}
+						}
+						catch(InterruptedException e){
+							Log.d("FEL", "");
+						}
+
+					}
+
 
 					if(Main.socket != null) {
+						if(isACCActive){
+							Main.send("ACC: ON");
+						}
+						else if(!isACCActive)
+							Main.send("ACC: OFF");
+						/*
 						Main.send("V0010H0050");
 						Log.d("Nu SLEEPAR vi", "xD");
 						balls[0].moveToCenter();
+						*/
 					}
 
 
@@ -511,7 +555,10 @@ public class PadView extends SurfaceView implements Callback, Runnable {
 		bar2 = new Rect(3 * left, h - w / 2, 5 * left, h + w / 2);
 		bar3 = new Rect(0, 0, 100, 100);
 		bar4 = new Rect(0, 0, 100, 100);
-		barACC = new Rect(0, 0, 100, 100);
+		barACC = new Rect(0, 100, 200, 200);
+		barACCON = new Rect(0, 100, 200, 200);
+		barACCOFF = new Rect(0, 100, 200, 200);
+
 		balls[0] = new Ball(left - w, top - 5 - w + (bottom - top) / 2, right + w,
 				top + 5 + w + (bottom - top) / 2, Ball.LEFT_BAR);
 		balls[1] = new Ball(4 * left - w - (w / 2), top - w - 5 + (bottom - top)
