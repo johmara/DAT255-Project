@@ -8,6 +8,7 @@ public class ACC implements Runnable, IMessageReceiver {
 
     private CanReader can;
     private Regulator reg;
+    private boolean running = true;
 
     public ACC() {
         RMIHandler.getInstance().addReceiver(this);
@@ -33,18 +34,21 @@ public class ACC implements Runnable, IMessageReceiver {
             e.printStackTrace();
         }
         while (true) {
-            try {
-                newControlSignal = reg.calcNewSpeed();
-                can.sendMotorSpeed((byte) newControlSignal);
-            } catch(InterruptedException ie){
-                ie.printStackTrace();
+            if (running) {
+                try {
+                    newControlSignal = reg.calcNewSpeed();
+                    can.sendMotorSpeed((byte) newControlSignal);
+                } catch (InterruptedException ie) {
+                    ie.printStackTrace();
+                }
             }
         }
     }
 
     @Override
     public void messageReceived(String msg) {
-        // Messages from APP
-
+        if (msg != null && !msg.isEmpty()) {
+            running = msg.contains("ON");
+        }
     }
 }

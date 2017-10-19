@@ -39,23 +39,23 @@ public class Regulator {
         integral = integral + (error * dt);
         //derivate = (error - lastError) / dt;
 
-        integral = integral > 5 ? 5 : integral;
+        integral = integral > 4 ? 4 : integral;
         integral = integral < -10 ? -10 : integral;
 
-        System.out.println("Intergral: " + integral);
+        //System.out.println("Intergral: " + integral);
 
         controlSignal = kp * error + (ki * integral) + (kd * (error - lastError)/*derivate*/);
 
         controlSignal = clamp(Math.round(controlSignal), -100, 100);
 
-        if(controlSignal > 40){
-            controlSignal = 40;
+        if(controlSignal > 10){
+            controlSignal = 10;
         }
-        if(controlSignal < -40){
-            controlSignal = -40;
+        if(controlSignal < -10){
+            controlSignal = -10;
         }
 
-        System.out.println(controlSignal);
+        //System.out.println(controlSignal);
 
         lastError = error;
         /*try {
