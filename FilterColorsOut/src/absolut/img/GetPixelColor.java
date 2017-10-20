@@ -20,7 +20,7 @@ public class GetPixelColor extends Thread {
      * @throws IOException
      */
 
-    public static final int ZERO_STEERING = 10;
+    public static final int ZERO_STEERING = -75;
 
     private CanReader can;
     private RPiCamera piCamera;
@@ -64,7 +64,9 @@ public class GetPixelColor extends Thread {
             //read image file
             //File file1 = new File(picture);
             //BufferedImage image = ImageIO.read(file1);
+            long time = System.currentTimeMillis();
             BufferedImage image = ImageIO.read(piCamera.takeStill("pi.jpg"));
+            System.out.println("Picture taken: " + (System.currentTimeMillis() - time));
             final byte[] pixels = ((DataBufferByte)image.getRaster().getDataBuffer()).getData();
             final int width = image.getWidth();
 
@@ -80,7 +82,7 @@ public class GetPixelColor extends Thread {
                 int red = ((int)pixels[pixel + (alpha ? 3: 2)] & 0xff);
                 int blue = ((int)pixels[pixel + (alpha ? 1: 0)] & 0xff);
                 int green = ((int)pixels[pixel + (alpha ? 2: 1)] & 0xff);
-                if (red >= 90 && blue <= 50 && green <= 50) {
+                if (/*red > blue && blue > green*/red >= 90 && blue <= 50 && green <= 50) {
                     if ( col < (width / 2))
                         redCounterLeft++;
                     else
@@ -92,15 +94,14 @@ public class GetPixelColor extends Thread {
                     row++;
                 }
             }
-            //System.out.println(" right: " + redCounterRight + " left: " + redCounterLeft);
-            //if (redCounterRight > 0) {
+
             if(redCounterLeft == 0 && redCounterRight == 0) {
                 System.out.println("inget rött hittat nånstans");
                 steering = (byte) ZERO_STEERING;
             }else {
                 // Alternative steering
-                /*
-                double r = redCounterRight / 25000D;
+
+                /*double r = redCounterRight / 25000D;
                 double l = redCounterLeft / 25000D;
 
                 if (r < 0 && l != 0)
@@ -113,8 +114,8 @@ public class GetPixelColor extends Thread {
                 if ((r < 0.001 && l < 0.001) || mD > -1 && mD < 1)
                     mD = ZERO_STEERING;
 
-                steering = (byte) Math.floor(mD);*/
-                kvot = ((float) redCounterLeft / (float) redCounterRight);
+                steering = (byte) Math.floor(mD);
+                */kvot = ((float) redCounterLeft / (float) redCounterRight);
 
                 if (kvot > 0.9 && kvot < 1.1) {
                     steering = (byte) 0;
@@ -137,14 +138,15 @@ public class GetPixelColor extends Thread {
                 } else
                     steering = (byte) 0;
             }
+            steering = (byte) remap(steering, -100, 100, 100, -100);
+            steering = (byte) clamp((steering - 75), -100, 100);
 
             System.out.println("Turn " + (steering > 0 ? "left " : steering == 0 ? "straight " : "right ") + steering + " " +
                     redCounterRight + (steering > 0 ? " > " : steering == 0 ? " = " : " < ") + redCounterLeft +
                     " kvot: " + kvot);
             can.sendSteering(steering);
+            System.out.println("All done: " + (System.currentTimeMillis() - time));
 
-
-            //else System.out.println("Turn right " + redCounterRight + " > " + redCounterLeft);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }

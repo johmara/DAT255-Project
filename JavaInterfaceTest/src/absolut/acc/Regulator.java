@@ -48,8 +48,8 @@ public class Regulator {
 
         controlSignal = clamp(Math.round(controlSignal), -100, 100);
 
-        if(controlSignal > 10){
-            controlSignal = 10;
+        if(controlSignal > 15){
+            controlSignal = 15;
         }
         if(controlSignal < -10){
             controlSignal = -10;

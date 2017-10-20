@@ -43,7 +43,7 @@ public class ImagePreviewer extends JFrame {
                     f.createNewFile();
                 }
                 jsch.setKnownHosts( knownHostsFilename );
-                String in = JOptionPane.showInputDialog("Ip of PI", "192.168.43.49");
+                String in = JOptionPane.showInputDialog("Ip of PI", "192.168.43.86");
                 session = jsch.getSession( "pi", in);
                 {
                     UserInfo ui = new Sftp.MyUserInfo();
@@ -90,8 +90,8 @@ public class ImagePreviewer extends JFrame {
             //Change these values to pick what to see
             //START CHANGE THESE
             int alpha = 0xFF;
-            if (red >= 90 && blue <= 50 && green <= 50)
-                c = 0xFF0000 | (alpha << 24);//blue | ((green << 8) | (red << 16));
+            if (/*red > blue && blue > green*/red >= 90 && blue <= 50 && green <= 50)
+                c = 0x00FF00 | (alpha << 24);//blue | ((green << 8) | (red << 16));
             else
                 c = 0x00000000;
             //This get the original colors of the pixel
