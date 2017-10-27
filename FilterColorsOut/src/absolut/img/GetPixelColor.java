@@ -11,20 +11,20 @@ import absolut.can.CanReader;
 import com.hopding.jrpicam.RPiCamera;
 import com.hopding.jrpicam.exceptions.FailedToRunRaspistillException;
 
-/* Läser av en bild och räknar ut hur mycket bilen ska svänga beroende på var det finns flest röda pixlar */
-
+/**
+ * Reads an image and calculates how much the car should steer depending on the amount of red pixels
+ */
 public class GetPixelColor extends Thread {
-    //int y, x, tofind, col;
-    /**
-     * @param args the command line arguments
-     * @throws IOException
-     */
 
     public static final int ZERO_STEERING = -75;
 
     private CanReader can;
     private RPiCamera piCamera;
     private byte steering = 0;
+
+    /**
+     * Setups the camera and the CanReader
+     */
     public GetPixelColor(){
         try {
             piCamera = new RPiCamera("/home/pi/Pictures");
@@ -37,17 +37,20 @@ public class GetPixelColor extends Thread {
         can = CanReader.getInstance();
     }
 
+    /**
+     * If run separately from the ACC this starts and setups everything
+     * @param args
+     * @throws IOException
+     * @throws InterruptedException
+     */
     public static void main(String args[]) throws IOException, InterruptedException {
         GetPixelColor pixel = new GetPixelColor();
         pixel.start();
-        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    CanReader.getInstance().sendMotorSpeed((byte) 0);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                CanReader.getInstance().sendEmergencyShutdown();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }));
     }
@@ -59,11 +62,12 @@ public class GetPixelColor extends Thread {
         }
     }
 
-    public  void scanPicture() {
+    /**
+     * Gets an image and analyzes it and sends the steering values on the CAN bus
+     */
+    public void scanPicture() {
         try {
-            //read image file
-            //File file1 = new File(picture);
-            //BufferedImage image = ImageIO.read(file1);
+
             long time = System.currentTimeMillis();
             BufferedImage image = ImageIO.read(piCamera.takeStill("pi.jpg"));
             System.out.println("Picture taken: " + (System.currentTimeMillis() - time));
@@ -73,9 +77,8 @@ public class GetPixelColor extends Thread {
             float kvot = 0;
             int redCounterLeft = 0;
             int redCounterRight = 0;
-            //int c;
-            //System.out.println(image.getWidth() + ":" + image.getHeight());;
 
+            // Checks for red pixels
             boolean alpha = image.getAlphaRaster() != null;
             int pixelLength = alpha ? 4: 3;
             for (int pixel = 0, row = 0, col = 0; pixel < pixels.length; pixel += pixelLength) {
@@ -95,6 +98,7 @@ public class GetPixelColor extends Thread {
                 }
             }
 
+            // Detergents how much to steer
             if(redCounterLeft == 0 && redCounterRight == 0) {
                 System.out.println("inget rött hittat nånstans");
                 steering = (byte) ZERO_STEERING;
@@ -138,7 +142,9 @@ public class GetPixelColor extends Thread {
                 } else
                     steering = (byte) 0;
             }
+            //Flips the steering values because of inverted steering on this specific MOPED
             steering = (byte) remap(steering, -100, 100, 100, -100);
+            // Clamps the steering with an offset that this MOPED has in it's hardware
             steering = (byte) clamp((steering - 75), -100, 100);
 
             System.out.println("Turn " + (steering > 0 ? "left " : steering == 0 ? "straight " : "right ") + steering + " " +
@@ -152,12 +158,32 @@ public class GetPixelColor extends Thread {
         }
     }
 
+    /**
+     * Clamps a value between a minimum and maximum value
+     * @param value The value to clamp
+     * @param min The minimum value to return
+     * @param max The maximum value to return
+     * @return The value clamped if needed
+     */
     public static double clamp(double value, double min, double max) {
         if (value < min) return min;
         if (value > max) return max;
         return value;
     }
 
+    /**
+     * Maps the input value to the same location as between the out high and low as it is between the in high and low
+     * For example:
+     * remap(30, 0, 100, 100, 0) -> 70
+     * remap(30, 0, 100, 0, 1) -> 0.3
+     * remap(40, 30, 70, 0, 40) -> 10
+     * @param value The value to remap
+     * @param low1 The lowest value the inout can have
+     * @param high1 The highest value the input can have
+     * @param low2 The lowest value the output will have
+     * @param high2 The highest value the output will have
+     * @return
+     */
     public static double remap(double value, double low1, double high1, double low2, double high2) {
         return low2 + (value - low1) * (high2 - low2) / (high1 - low1);
     }

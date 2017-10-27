@@ -3,10 +3,15 @@ package absolut.acc;
 import absolut.can.CanReader;
 import java.util.Arrays;
 
+/**
+ * Gets the values from to sensor over the can bus
+ */
 public class Sensor{
 
-    public Sensor(){}
-
+    /**
+     * Gets the median value of the sensor data
+     * @return The median of the sensor data
+     */
     public double getDistance(){
         int[] a = getData();
         Arrays.sort(a);
@@ -18,10 +23,18 @@ public class Sensor{
         }
     }
 
+    /**
+     * Gets the raw data that was received from the can bus
+     * @return A string with data from the can bus
+     */
     public String getRawData() {
         return CanReader.getInstance().getData();
     }
 
+    /**
+     * A parsed list of data from teh sensor
+     * @return A list of data
+     */
     public int[] getData() {
         String data = getRawData();
         String[] sData = data.split(" ");

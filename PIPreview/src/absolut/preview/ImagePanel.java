@@ -5,6 +5,9 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
+/**
+ * A panel that draws images from a BufferedImage object
+ */
 public class ImagePanel extends JPanel {
 
     private transient BufferedImage image = null;
@@ -18,20 +21,29 @@ public class ImagePanel extends JPanel {
         at.translate(-200, -125);
     }
 
-    public synchronized void setImage(BufferedImage image) {
-        this.image = image;
-        repaint();
-    }
-
+    /**
+     * Sets both the images
+     * @param image The base image to show
+     * @param image2 The overlay image to show
+     */
     public synchronized void setImages(BufferedImage image, BufferedImage image2) {
         this.image = image;
         this.image2 = image2;
         repaint();
     }
 
+    /**
+     * Gets the base image
+     * @return The base image
+     */
     public synchronized BufferedImage getImage() {
         return image;
     }
+
+    /**
+     * Gets the overlay image
+     * @return The overlay image
+     */
     public synchronized BufferedImage getImage2() {
         return image2;
     }

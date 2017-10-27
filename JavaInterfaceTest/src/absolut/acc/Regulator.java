@@ -15,6 +15,9 @@ public class Regulator {
         init();
     }
 
+    /**
+     * Setups the base values of the regulator
+     */
     private void init(){
         preferredDistance = 40;
         kp = 0.85;
@@ -27,7 +30,10 @@ public class Regulator {
         sensor = new Sensor();
     }
 
-
+    /**
+     * Calculates the new speed based on the values form the sensor and last values
+     * @return The control signal to send to the motor
+     */
     public int calcNewSpeed() {
 
         double sensorValue = sensor.getDistance();
@@ -66,6 +72,13 @@ public class Regulator {
         return (int) Math.round(controlSignal);
     }
 
+    /**
+     * Clamps a value between a minimum and maximum value
+     * @param in The value to clamp
+     * @param min The minimum value to return
+     * @param max The maximum value to return
+     * @return The value clamped if needed
+     */
     private double clamp(double in, double min, double max) {
         return Math.max(min, Math.min(in, max));
     }

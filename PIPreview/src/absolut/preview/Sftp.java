@@ -4,6 +4,10 @@ import com.jcraft.jsch.*;
 import java.awt.*;
 import javax.swing.*;
 
+/**
+ * A modified class copied from an example of how to use Sftp with JSch
+ * This class is for displaying known host and login fields for the sftp connection
+ */
 public class Sftp{
 
     public static class MyUserInfo implements UserInfo, UIKeyboardInteractive{

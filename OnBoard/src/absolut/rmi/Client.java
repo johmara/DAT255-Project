@@ -1,6 +1,5 @@
 package absolut.rmi;
 
-import java.nio.charset.Charset;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;

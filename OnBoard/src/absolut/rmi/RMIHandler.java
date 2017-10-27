@@ -1,25 +1,31 @@
 package absolut.rmi;
 
-import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
+/**
+ * Takes care of messages from another running program
+ */
 public class RMIHandler implements IMessageHandler {
 
     private static volatile RMIHandler instance;
     private ArrayList<IMessageReceiver> receivers;
 
+    /**
+     * Setups the handlers
+     */
     private RMIHandler(){
         super();
         this.receivers = new ArrayList<>();
-        //if (System.getSecurityManager() == null) {
-            //System.setSecurityManager(new RMISecurityManager());
-        //}
     }
 
+    /**
+     * Gets the singleton instance of the handler
+     * @return The singleton instance
+     */
     public static synchronized RMIHandler getInstance() {
         if (instance == null) {
             instance = new RMIHandler();
@@ -35,6 +41,10 @@ public class RMIHandler implements IMessageHandler {
         return instance;
     }
 
+    /**
+     * Adds an end receiver for messages
+     * @param receiver The receiver to get the messages from this
+     */
     public void addReceiver(IMessageReceiver receiver) {
         receivers.add(receiver);
     }

@@ -8,6 +8,10 @@ import org.omg.SendingContext.RunTime;
 
 public class Main {
 
+    /**
+     * Starts the ACC and can start the ALC
+     * @param args The "all" argument needs to be present if the ALC should be started as well
+     */
     public static void main(String args[]) throws IOException {
         ACC acc = new ACC();
         Thread accThread = new Thread(acc);
@@ -16,14 +20,12 @@ public class Main {
             GetPixelColor pixelColor = new GetPixelColor();
             pixelColor.start();
         }
-        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    CanReader.getInstance().sendEmergencyShutdown();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+        // Adds a hook for when the program is shutdown to stop the MOPED
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                CanReader.getInstance().sendEmergencyShutdown();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }));
     }

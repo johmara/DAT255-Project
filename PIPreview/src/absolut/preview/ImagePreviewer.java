@@ -10,6 +10,10 @@ import java.awt.image.DataBufferByte;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Gets an image from the PI to preview what the PI sees when it's driving
+ * It creates an overlay for the color that the MOPED should follow to easily see them
+ */
 public class ImagePreviewer extends JFrame {
 
     private ImagePanel ip;
@@ -30,6 +34,9 @@ public class ImagePreviewer extends JFrame {
         connect();
     }
 
+    /**
+     * Setups the connection to the PI with JSch that is a sftp library
+     */
     private void connect() {
         new Thread(() -> {
             Session session = null;
@@ -70,10 +77,21 @@ public class ImagePreviewer extends JFrame {
         }).start();
     }
 
+    /**
+     * Starts the program
+     * @param args Not arguments are taken
+     */
     public static void main(String[] args) {
         new ImagePreviewer();
     }
 
+    /**
+     * Converts an BufferedImage to an overlay
+     * The pixels with the color that are wanted gets a green color
+     * The rest of the pixels are transparent
+     * @param in The buffered image to convert
+     * @return A transparent image with green pixels where desired
+     */
     private BufferedImage getConverted(BufferedImage in) {
         byte[] data = ((DataBufferByte) in.getRaster().getDataBuffer()).getData();
         int width = in.getWidth(), height = in.getHeight();
@@ -90,11 +108,11 @@ public class ImagePreviewer extends JFrame {
             //Change these values to pick what to see
             //START CHANGE THESE
             int alpha = 0xFF;
-            if (/*red > blue && blue > green*/red >= 90 && blue <= 50 && green <= 50)
-                c = 0x00FF00 | (alpha << 24);//blue | ((green << 8) | (red << 16));
+            if (red >= 90 && blue <= 50 && green <= 50)
+                c = 0x00FF00 | (alpha << 24);
             else
                 c = 0x00000000;
-            //This get the original colors of the pixel
+            //This gets the original colors of the pixel
             //c = blue | ((green << 8) | (red << 16));
             //STOP CHANGE THESE
 

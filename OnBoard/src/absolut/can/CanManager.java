@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 /**
+ * Copied and modified from ecm-core for our usage
  * @author Gustaf Järgren
  * @author Arndt
  */
